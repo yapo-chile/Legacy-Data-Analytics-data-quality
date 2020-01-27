@@ -11,7 +11,7 @@ class AppConfig:
     AppConfig Class representing the configuration of the application
     """
 
-    @environ.config(prefix="PULSE")
+    @environ.config(prefix="RUNDECK")
     class RundeckConfig:
         """
         RundeckConfig class represeting the configuration to access

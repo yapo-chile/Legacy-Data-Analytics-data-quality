@@ -9,9 +9,9 @@ make docker-build
 
 ### Run micro services
 ```
-docker run -v /local-path/secrets/pulse:/app/pulse-secret \
+docker run -v /local-path/secrets/rundeck:/app/rundeck-secret \
            -v /local-path/secrets/db-secret:/app/db-secret \
-           -e APP_PULSE_SECRET=/app/pulse-secret \
+           -e APP_RUNDECK_SECRET=/app/pulse-secret \
            -e APP_DB_SECRET=/app/db-secret \
            containers.mpi-internal.com/yapo/data-quality-rundeck-stat:[TAG]
 ```
@@ -19,9 +19,9 @@ docker run -v /local-path/secrets/pulse:/app/pulse-secret \
 ### Run micro services with parameters
 
 ```
-docker run -v /local-path/secrets/pulse:/app/pulse-secret \
+docker run -v /local-path/secrets/rundeck:/app/rundeck-secret \
            -v /local-path/secrets/db-secret:/app/db-secret \
-           -e APP_PULSE_SECRET=/app/pulse-secret \
+           -e APP_RUNDECK_SECRET=/app/pulse-secret \
            -e APP_DB_SECRET=/app/db-secret \
            containers.mpi-internal.com/yapo/data-quality-rundeck-stat:[TAG] \
            -date_from=YYYY-MM-DD \
