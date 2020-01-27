@@ -1,0 +1,17 @@
+bin
+include
+etc
+lib
+share
+.Python
+*.pyc
+pgdata
+.mypy_cache
+__pycache__/
+Pipfile*
+LICENSE
+README.rst
+data-pipeline-base
+automated_build.txt
+.DS_Store
+credentials.json
