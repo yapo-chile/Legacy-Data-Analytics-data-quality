@@ -1,0 +1,47 @@
+- defaultTab: nodes
+  description: |-
+        sudo docker run -v /home/bnbiuser/secrets/pulse_auth:/app/pulse-secret \
+                        -v /home/bnbiuser/secrets/dw_db:/app/db-secret \
+                        -e APP_PULSE_SECRET=/app/pulse-secret \
+                        -e APP_DB_SECRET=/app/db-secret \
+                        containers.mpi-internal.com/yapo/rundeck-stat:latest
+  executionEnabled: true
+  group: DOCKER/PULSE
+  loglevel: DEBUG
+  name: Pulse - Project Name Template
+  nodeFilterEditable: false
+  nodefilters:
+    dispatch:
+      excludePrecedence: true
+      keepgoing: false
+      rankOrder: ascending
+      successOnEmptyNodeFilter: false
+      threadcount: '1'
+    filter: 'name: dockerhost'
+  nodesSelectedByDefault: true
+  notification:
+    onfailure:
+      email:
+        recipients: bi_team@schibsted.cl
+        subject: ${job.execid} ${execution.status} ${job.name}
+    onstart:
+      email:
+        recipients: bi_team@schibsted.cl
+        subject: ${job.execid} ${execution.status} ${job.name}
+    onsuccess:
+      email:
+        recipients: bi_team@schibsted.cl
+        subject: ${job.execid} ${execution.status} ${job.name}
+  notifyAvgDurationThreshold: null
+  scheduleEnabled: true
+  sequence:
+    commands:
+    - script: |-
+        sudo docker run -v /home/bnbiuser/secrets/pulse_auth:/app/pulse-secret \
+                        -v /home/bnbiuser/secrets/dw_db:/app/db-secret \
+                        -e APP_PULSE_SECRET=/app/pulse-secret \
+                        -e APP_DB_SECRET=/app/db-secret \
+                        containers.mpi-internal.com/yapo/rundeck-stat:latest
+    keepgoing: false
+    strategy: node-first
+  timeZone: America/Santiago

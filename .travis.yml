@@ -19,7 +19,7 @@ before_script:
   - bash scripts/install-dependencies.sh
   
 # script always run to completion (set +e). All of these code checks are must haves
-# in a modern python project.
+# in a modern Go project.
 script:
   - bash scripts/build-module.sh
 after_failure:
