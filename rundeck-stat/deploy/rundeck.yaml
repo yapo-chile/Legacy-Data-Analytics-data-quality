@@ -1,14 +1,14 @@
 - defaultTab: nodes
   description: |-
-        sudo docker run -v /home/bnbiuser/secrets/pulse_auth:/app/pulse-secret \
+        sudo docker run -v /home/bnbiuser/secrets/rundeck_auth:/app/rundeck-auth \
                         -v /home/bnbiuser/secrets/dw_db:/app/db-secret \
-                        -e APP_PULSE_SECRET=/app/pulse-secret \
+                        -e APP_RUNDECK_SECRET=/app/rundeck-auth \
                         -e APP_DB_SECRET=/app/db-secret \
                         containers.mpi-internal.com/yapo/rundeck-stat:latest
   executionEnabled: true
-  group: DOCKER/PULSE
+  group: DATA-QUALITY
   loglevel: DEBUG
-  name: Pulse - Project Name Template
+  name: Rundeck monitoring
   nodeFilterEditable: false
   nodefilters:
     dispatch:
@@ -37,9 +37,9 @@
   sequence:
     commands:
     - script: |-
-        sudo docker run -v /home/bnbiuser/secrets/pulse_auth:/app/pulse-secret \
+        sudo docker run -v /home/bnbiuser/secrets/rundeck_auth:/app/rundeck-auth \
                         -v /home/bnbiuser/secrets/dw_db:/app/db-secret \
-                        -e APP_PULSE_SECRET=/app/pulse-secret \
+                        -e APP_RUNDECK_SECRET=/app/rundeck-auth \
                         -e APP_DB_SECRET=/app/db-secret \
                         containers.mpi-internal.com/yapo/rundeck-stat:latest
     keepgoing: false
