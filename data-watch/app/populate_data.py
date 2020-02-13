@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
+import utils.queries as q
+import psycopg2 as pg
+from datetime import date, timedelta
+import argparse
 import logging
+import infraestructure.common as cm
 import sys
 import os
-
-from datetime import date, timedelta
-import psycopg2 as pg
-import argparse
-import infraestructure.common as cm
-import utils.queries as q
+# from configparser import ConfigParser, ExtendedInterpolation
 from configobj import ConfigObj
 from urllib.parse import urlparse
 
@@ -81,7 +81,7 @@ def get_queries(cfg):
 
 
 def populate_day(day, cfg, selected_kpis=None, ignored_kpis=None):
-    logger.info("Calculating KPIs for day %s", day.strftime('%Y-%m-%d'))
+    logger.info("Calculating KPIs for day %s" % day.strftime('%Y-%m-%d'))
     queries = get_queries(cfg)
     history_source = cfg['history_datasource']
     if selected_kpis:
@@ -92,7 +92,7 @@ def populate_day(day, cfg, selected_kpis=None, ignored_kpis=None):
         kpis_to_populate = list(queries.keys())
 
     for kpi in kpis_to_populate:
-        logger.info("Calculating %s...", kpi)
+        logger.info("Calculating %s..." % kpi)
         query = queries.get(kpi, {}).get('query')
         source = queries.get(kpi, {}).get('source')
         if query and source:

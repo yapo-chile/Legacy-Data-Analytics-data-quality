@@ -11,7 +11,7 @@ make docker-build
 ```
 docker run -v /local-path/secrets/datawatch.ini:/app/datawatch.ini \
            -e DATA_WATCH_CONF=/app/datawatch.ini \
-           containers.mpi-internal.com/yapo/data-watch:[TAG]
+           containers.mpi-internal.com/yapo/data-quality-data-watch:[TAG]
 ```
 
 ### Run micro services with parameters
@@ -19,7 +19,7 @@ docker run -v /local-path/secrets/datawatch.ini:/app/datawatch.ini \
 ```
 docker run -v /local-path/secrets/datawatch.ini:/app/datawatch.ini \
            -e DATA_WATCH_CONF=/app/datawatch.ini \
-           containers.mpi-internal.com/yapo/data-watch:[TAG] \
+           containers.mpi-internal.com/yapo/data-quality-data-watch:[TAG] \
            -date_from=YYYY-MM-DD \
            -date_to=YYYY-MM-DD
 ```

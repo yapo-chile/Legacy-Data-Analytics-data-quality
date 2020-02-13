@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 from collections import defaultdict
+import pandas as pd
+import infraestructure.common as cm
+import argparse
+import matplotlib
+from utils.queries import get_kpi_values_ignored_q, get_kpi_values_selected_q
+from sklearn import linear_model
+from sklearn.preprocessing import OneHotEncoder
+from datetime import timedelta, date
+import tempfile
 import os
 import logging
 import sys
-import tempfile
-from datetime import timedelta, date
-import argparse
-import pandas as pd
-from sklearn import linear_model
-from sklearn.preprocessing import OneHotEncoder
-import matplotlib
-import infraestructure.common as cm
-from utils.queries import get_kpi_values_selected_q
 from populate_data import get_config, show_kpis, get_queries
 
 logger = logging.getLogger('datawatch')
@@ -65,7 +65,7 @@ def find_anomalies(kpi_data, kpi_configs, ignored_kpi_variations=()):
         try:
             y_truth = kpi_data['y'].tail(1).values[0]
         except IndexError:
-            logger.warning("No significant data present for kpi %s.", kpi_variation)
+            logger.warning("No significant data present for kpi_variation %s." % kpi_variation)
             continue
         try:
             y_hat = linear_model_check(kpi_data, kpi_config)
@@ -77,7 +77,7 @@ def find_anomalies(kpi_data, kpi_configs, ignored_kpi_variations=()):
                     expected.values.transpose()[0]
                 anomalies[kpi_variation] = report
         except NotEnoughData:
-            logger.warning("Not enough data to predict %s", kpi_variation)
+            logger.warning("Not enough data to predict %s" % kpi_variation)
     return anomalies
 
 
@@ -268,6 +268,7 @@ def main(cfg):
                                 kpis_to_check,
                                 get_max_history_length(cfg, kpis_to_check))
 
+    kpi_values.to_csv('data.csv', index = False)
     anomalies = find_anomalies(
         kpi_values,
         kpi_configs,
@@ -275,6 +276,7 @@ def main(cfg):
     )
 
     recipents = options.recipients or cfg['email_recipients']
+
     # stale data needs to be thought over
     stale_data = False
     if anomalies:
@@ -302,29 +304,20 @@ def day_anomalies(day, kpi_configs, history_datasource):
         kpi_configs)
 
 
-def alerts_history(day_from,
-                   day_to,
-                   kpi_configs,
-                   history_datasource,
-                   ignored_unstable):
-    print("SIMULATE ALERTS FROM %s TO %s for %s kpis" \
-        % (day_from, day_to, len(kpi_configs)))
+def alerts_history(day_from, day_to, kpi_configs, history_datasource, ignored_unstable):
+    print("SIMULATE ALERTS FROM %s TO %s for %s kpis" % (day_from, day_to, len(kpi_configs)))
     alert_counter = defaultdict(int)
     for day in pd.date_range(day_from, day_to):
         alerts = day_anomalies(day, kpi_configs, history_datasource)
         for kpi in alerts:
             alert_counter[kpi] += 1
-    sorted_alerts = sorted(alert_counter.items(),
-                           key=lambda x: x[1],
-                           reverse=True)
+    sorted_alerts = sorted(alert_counter.items(), key=lambda x: x[1], reverse=True)
     for kpi_alerted, times in sorted_alerts:
         if kpi_alerted not in ignored_unstable:
-            print("Kpi-variation %s alert triggered %s times." \
-                 % (kpi_alerted, times))
+            print("Kpi-variation %s alert triggered %s times." % (kpi_alerted, times))
     for kpi_alerted, times in sorted_alerts:
         if kpi_alerted in ignored_unstable:
-            print("Kpi-variation %s alert triggered %s times (but silenced)." \
-                 % (kpi_alerted, times))
+            print("Kpi-variation %s alert triggered %s times (but silenced)." % (kpi_alerted, times))
     sys.exit(0)
 
 

@@ -60,7 +60,8 @@ def ignore_exceptions(some_function):
 
 def get_conf(confd='kbconfdvirtual.subito.int', port=5758):
     return netcat(confd, port,
-                  b'cmd:bconf\nappl:phoenix\nhost:pippo\ncommit:1\nend\n').decode('latin1').splitlines()
+                  b'cmd:bconf\nappl:phoenix\nhost:pippo\ncommit:1\nend\n').decode(
+        'latin1').splitlines()
 
 
 def init_addresses(conf):
@@ -160,7 +161,7 @@ def init_lookups(conf):
 
 
 def send_mail(send_from, send_to, subject, text, files=None,
-              server="relay.subito.int", print_only=False):
+              server="172.21.10.220", print_only=False):
     assert isinstance(send_to, list)
 
     msg = MIMEMultipart()
@@ -184,7 +185,7 @@ def send_mail(send_from, send_to, subject, text, files=None,
     if print_only:
         print(msg)
     else:
-        smtp = smtplib.SMTP(server)
+        smtp = smtplib.SMTP(server, 25)
         smtp.sendmail(send_from, send_to, msg.as_string())
         smtp.close()
 
