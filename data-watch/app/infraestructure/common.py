@@ -161,7 +161,7 @@ def init_lookups(conf):
 
 
 def send_mail(send_from, send_to, subject, text, files=None,
-              server="172.21.10.220", print_only=False):
+              server="10.45.1.110", print_only=False):
     assert isinstance(send_to, list)
 
     msg = MIMEMultipart()
