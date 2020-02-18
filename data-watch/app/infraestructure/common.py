@@ -4,6 +4,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.utils import COMMASPACE, formatdate
 import re
+import os
 import socket
 from collections import defaultdict
 import smtplib
@@ -161,7 +162,7 @@ def init_lookups(conf):
 
 
 def send_mail(send_from, send_to, subject, text, files=None,
-              server="10.45.1.110", print_only=False):
+              server=os.environ.get('DATA_WATCH_SERVER_EMAIL'), print_only=False):
     assert isinstance(send_to, list)
 
     msg = MIMEMultipart()
