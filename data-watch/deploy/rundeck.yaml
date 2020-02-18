@@ -1,14 +1,13 @@
 - defaultTab: nodes
   description: |-
-        sudo docker run -v /home/bnbiuser/secrets/pulse_auth:/app/pulse-secret \
-                        -v /home/bnbiuser/secrets/dw_db:/app/db-secret \
-                        -e APP_PULSE_SECRET=/app/pulse-secret \
-                        -e APP_DB_SECRET=/app/db-secret \
-                        containers.mpi-internal.com/yapo/data-watch:latest
+        sudo docker run -v /home/bnbiuser/secrets/datawatch.ini:/app/datawatch.ini \
+                        -e DATA_WATCH_CONF=/app/datawatch.ini \
+                        -e DATA_WATCH_SERVER_EMAIL=10.45.1.110 \
+                        containers.mpi-internal.com/yapo/data-quality-data-watch:latest
   executionEnabled: true
-  group: DOCKER/PULSE
+  group: DATA-QUALITY
   loglevel: DEBUG
-  name: Pulse - Project Name Template
+  name: Data Watch
   nodeFilterEditable: false
   nodefilters:
     dispatch:
@@ -22,26 +21,27 @@
   notification:
     onfailure:
       email:
-        recipients: bi_team@schibsted.cl
+        recipients: data_team@adevinta.com
         subject: ${job.execid} ${execution.status} ${job.name}
     onstart:
       email:
-        recipients: bi_team@schibsted.cl
+        recipients: data_team@adevinta.com
         subject: ${job.execid} ${execution.status} ${job.name}
     onsuccess:
       email:
-        recipients: bi_team@schibsted.cl
+        recipients: data_team@adevinta.com
         subject: ${job.execid} ${execution.status} ${job.name}
   notifyAvgDurationThreshold: null
   scheduleEnabled: true
   sequence:
     commands:
     - script: |-
-        sudo docker run -v /home/bnbiuser/secrets/pulse_auth:/app/pulse-secret \
-                        -v /home/bnbiuser/secrets/dw_db:/app/db-secret \
-                        -e APP_PULSE_SECRET=/app/pulse-secret \
-                        -e APP_DB_SECRET=/app/db-secret \
-                        containers.mpi-internal.com/yapo/data-watch:latest
+        sudo docker pull containers.mpi-internal.com/yapo/data-quality-data-watch:latest
+
+        sudo docker run -v /home/bnbiuser/secrets/datawatch.ini:/app/datawatch.ini \
+                        -e DATA_WATCH_CONF=/app/datawatch.ini \
+                        -e DATA_WATCH_SERVER_EMAIL=10.45.1.110 \
+                        containers.mpi-internal.com/yapo/data-quality-data-watch:latest
     keepgoing: false
     strategy: node-first
   timeZone: America/Santiago
