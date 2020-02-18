@@ -1,5 +1,5 @@
 create_history_table_q = """
-CREATE TABLE aggregate.datawatch_history (
+CREATE TABLE ods.datawatch_history (
   dt_day DATE NOT NULL,
   kpi VARCHAR(256) NOT NULL,
   variation VARCHAR(256) NOT NULL,
@@ -12,28 +12,28 @@ CREATE TABLE aggregate.datawatch_history (
 # stale_data_q = """
 # SELECT date_trunc('day', insert_time) AS insert_time,
 #   count(*) AS rows
-# FROM aggregate.datawatch_history
+# FROM ods.datawatch_history
 # GROUP BY 1
 # HAVING count(*) > 70
 # ORDER BY 1 DESC
 # LIMIT 1
 # """
 delete_query = """
-DELETE FROM aggregate.datawatch_history
+DELETE FROM ods.datawatch_history
 WHERE
     report_day = %(report_day)s
     AND kpi = %(kpi)s
 """
 
 insert_query = """
-INSERT INTO aggregate.datawatch_history
+INSERT INTO ods.datawatch_history
 (dt_day, kpi, variation, value, report_day)
 VALUES (%(dt_day)s, %(kpi)s, %(variation)s, %(value)s, %(report_day)s)
 """
 
 # get_kpis_to_check_q = """
 # SELECT kpi, max(dt_day) AS last_day, max(insert_time) AS last_insert
-# FROM aggregate.datawatch_history
+# FROM ods.datawatch_history
 # WHERE dt_day > CURRENT_TIMESTAMP - INTERVAL '15 days'
 # GROUP BY 1
 # """
@@ -47,7 +47,7 @@ VALUES (%(dt_day)s, %(kpi)s, %(variation)s, %(value)s, %(report_day)s)
 #     kpi||'-'||variation as kpi_variation,
 #     value,
 #     CASE WHEN dt_day = %(day)s THEN FALSE ELSE anomaly END AS anomaly
-# FROM aggregate.datawatch_history
+# FROM ods.datawatch_history
 # WHERE
 #     report_day >= %(day)s - INTERVAL '%(history_length)s days'
 #     AND report_day <= %(day)s
@@ -61,7 +61,7 @@ SELECT
     kpi||'-'||variation as kpi_variation,
     value,
     CASE WHEN dt_day = %(day)s THEN FALSE ELSE anomaly END AS anomaly
-FROM aggregate.datawatch_history
+FROM ods.datawatch_history
 WHERE
     report_day >= %(day)s - INTERVAL '28 days'
     AND report_day <= %(day)s
@@ -76,7 +76,7 @@ SELECT
     kpi||'-'||variation as kpi_variation,
     value,
     CASE WHEN dt_day = %(day)s THEN FALSE ELSE anomaly END AS anomaly
-FROM aggregate.datawatch_history
+FROM ods.datawatch_history
 WHERE
     report_day >= %(day)s - INTERVAL '28 days'
     AND report_day <= %(day)s
