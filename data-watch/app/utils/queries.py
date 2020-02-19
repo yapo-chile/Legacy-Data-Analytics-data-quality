@@ -12,7 +12,7 @@ CREATE TABLE ods.datawatch_history (
 delete_query = """
 DELETE FROM ods.datawatch_history
 WHERE
-    report_day = %(report_day)s
+    dt_day = %(report_day)s
     AND kpi = %(kpi)s
 """
 
