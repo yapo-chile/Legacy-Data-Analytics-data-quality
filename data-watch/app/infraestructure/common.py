@@ -64,49 +64,6 @@ def get_conf(confd='kbconfdvirtual.subito.int', port=5758):
                   b'cmd:bconf\nappl:phoenix\nhost:pippo\ncommit:1\nend\n').decode(
         'latin1').splitlines()
 
-
-def init_addresses(conf):
-    global REDIS_PAGES_HOST, REDIS_PAGES_PORT, REDIS_PAGES_DB, REDIS_EVENTS_HOST, \
-        REDIS_EVENTS_PORT, REDIS_EVENTS_DB, SEARCH_HOST, SEARCH_PORT
-
-    search_host_re = re.compile("^conf:search.host=(.*)")
-    search_port_re = re.compile("^conf:search.port=([0-9]*)")
-    redispages_host_re = re.compile("^conf:common.redispages.host.m.name=(.*)")
-    redispages_port_re = re.compile("^conf:common.redispages.host.m.port=([0-9]*)")
-    redispages_db_re = re.compile("^conf:common.redispages.db=([0-9]*)")
-    redisevents_host_re = re.compile("^conf:common.redis.host.m.name=(.*)")
-    redisevents_port_re = re.compile("^conf:common.redis.host.m.port=([0-9]*)")
-    redisevents_db_re = re.compile("^conf:common.redis.db=([0-9]*)")
-
-    for line in conf:
-        m = search_host_re.match(line)
-        if m:
-            SEARCH_HOST = m.groups()[0]
-        m = search_port_re.match(line)
-        if m:
-            SEARCH_PORT = int(m.groups()[0])
-
-        m = redispages_host_re.match(line)
-        if m:
-            REDIS_PAGES_HOST = m.groups()[0]
-        m = redispages_port_re.match(line)
-        if m:
-            REDIS_PAGES_PORT = int(m.groups()[0])
-        m = redispages_db_re.match(line)
-        if m:
-            REDIS_PAGES_DB = int(m.groups()[0])
-
-        m = redisevents_host_re.match(line)
-        if m:
-            REDIS_EVENTS_HOST = m.groups()[0]
-        m = redisevents_port_re.match(line)
-        if m:
-            REDIS_EVENTS_PORT = int(m.groups()[0])
-        m = redisevents_db_re.match(line)
-        if m:
-            REDIS_EVENTS_DB = int(m.groups()[0])
-
-
 def get_double_lookup(conf, regex):
     lookup = defaultdict(lambda: defaultdict(lambda: None))
     for line in conf:
@@ -162,7 +119,7 @@ def init_lookups(conf):
 
 
 def send_mail(send_from, send_to, subject, text, files=None,
-              server=os.environ.get('DATA_WATCH_SERVER_EMAIL'), print_only=False):
+              server=os.environ.get('DATA_WATCH_SERVER_EMAIL_HOST'), print_only=False):
     assert isinstance(send_to, list)
 
     msg = MIMEMultipart()
@@ -186,7 +143,7 @@ def send_mail(send_from, send_to, subject, text, files=None,
     if print_only:
         print(msg)
     else:
-        smtp = smtplib.SMTP(server, 25)
+        smtp = smtplib.SMTP(server, os.environ.get('DATA_WATCH_SERVER_EMAIL_PORT'))
         smtp.sendmail(send_from, send_to, msg.as_string())
         smtp.close()
 
