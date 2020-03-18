@@ -36,8 +36,8 @@
   schedule:
     month: '*'
     time:
-      hour: '08'
-      minute: '0'
+      hour: '10'
+      minute: '30'
       seconds: '0'
     weekday:
       day: '*'
