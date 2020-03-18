@@ -33,6 +33,15 @@
         recipients: data_team@adevinta.com
         subject: ${job.execid} ${execution.status} ${job.name}
   notifyAvgDurationThreshold: null
+  schedule:
+    month: '*'
+    time:
+      hour: '08'
+      minute: '0'
+      seconds: '0'
+    weekday:
+      day: '*'
+    year: '*'
   scheduleEnabled: true
   sequence:
     commands:
