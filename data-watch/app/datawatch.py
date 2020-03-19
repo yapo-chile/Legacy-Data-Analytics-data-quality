@@ -286,12 +286,6 @@ def main(cfg):
             cfg['email_sender'],
             stale_data=stale_data,
             print_only=options.test_run)
-    else:
-        send_ok_email(recipents,
-                      sender=cfg['email_sender'],
-                      kpis=kpis_to_check,
-                      stale_data=stale_data,
-                      print_only=options.test_run)
 
 
 def day_anomalies(day, kpi_configs, history_datasource):
