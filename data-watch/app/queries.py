@@ -67,7 +67,7 @@ QUERIES ={
         where
         event_name in ( 'Ad insertion confirmed', 'Ad detail viewed')
         and event_date::date = now()::date - 1
-        group""",
+        group by 1,2""",
     "EVENTS_LISTING": """ select
         event_date::varchar dt_day,
         event_type || ' - ' || event_name as variation,
@@ -78,4 +78,3 @@ QUERIES ={
         and event_date::date = now()::date - 1
         group by 1,2"""
     }
-
