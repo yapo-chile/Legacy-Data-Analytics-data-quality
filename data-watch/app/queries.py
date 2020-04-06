@@ -1,3 +1,7 @@
+"""
+List of queries to be used in datawatch, this file will be uploaded to
+s3 yapo-data bucket.
+"""
 QUERIES ={
     "NAA": """select
         (now()::date - 1)::varchar as dt_day,
