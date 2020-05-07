@@ -47,8 +47,8 @@
     commands:
     - script: |-
         sudo docker pull containers.mpi-internal.com/yapo/data-quality-data-watch:latest
-
-        sudo docker run -v /home/bnbiuser/secrets/datawatch.ini:/app/datawatch.ini \
+        sh /home/bnbiuser/datawatch/conf.sh
+        sudo docker run -v /home/bnbiuser/datawatch/datawatch.ini:/app/datawatch.ini \
                         -e DATA_WATCH_CONF=/app/datawatch.ini \
                         -e DATA_WATCH_SERVER_EMAIL_HOST=10.45.1.110 \
                         -e DATA_WATCH_SERVER_EMAIL_PORT=25 \
