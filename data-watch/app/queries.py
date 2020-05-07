@@ -69,7 +69,10 @@ QUERIES ={
         sum(amount_events) as value
         from dm_pulse.monitoring_events
         where
-        event_name in ( 'Ad insertion confirmed', 'Ad detail viewed')
+        event_name in ( 'Ad insertion confirmed',
+        	'Ad detail viewed',
+        	'Ad insertion error',
+        	'Ad insertion form')
         and event_date::date = now()::date - 1
         group by 1,2""",
     "EVENTS_LISTING": """ select
@@ -80,5 +83,6 @@ QUERIES ={
         where
         event_name in ( 'Listing viewed')
         and event_date::date = now()::date - 1
-        group by 1,2"""
+        group by 1,2""",
+
     }
