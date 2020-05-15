@@ -16,3 +16,4 @@ automated_build.txt
 .DS_Store
 credentials.json
 data.csv
+.secret

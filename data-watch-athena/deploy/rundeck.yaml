@@ -1,0 +1,58 @@
+- defaultTab: nodes
+  description: |-
+        sudo docker run -v /home/bnbiuser/secrets/datawatch.ini:/app/datawatch.ini \
+                        -e DATA_WATCH_CONF=/app/datawatch.ini \
+                        -e DATA_WATCH_SERVER_EMAIL_HOST=10.45.1.110 \
+                        -e DATA_WATCH_SERVER_EMAIL_PORT=25 \
+                        containers.mpi-internal.com/yapo/data-quality-data-watch-athena:latest
+  executionEnabled: true
+  group: DATA-QUALITY
+  loglevel: DEBUG
+  name: Data Watch Athena
+  nodeFilterEditable: false
+  nodefilters:
+    dispatch:
+      excludePrecedence: true
+      keepgoing: false
+      rankOrder: ascending
+      successOnEmptyNodeFilter: false
+      threadcount: '1'
+    filter: 'name: dockerhost'
+  nodesSelectedByDefault: true
+  notification:
+    onfailure:
+      email:
+        recipients: data_team@adevinta.com
+        subject: ${job.execid} ${execution.status} ${job.name}
+    onstart:
+      email:
+        recipients: data_team@adevinta.com
+        subject: ${job.execid} ${execution.status} ${job.name}
+    onsuccess:
+      email:
+        recipients: data_team@adevinta.com
+        subject: ${job.execid} ${execution.status} ${job.name}
+  notifyAvgDurationThreshold: null
+  schedule:
+    month: '*'
+    time:
+      hour: '10'
+      minute: '30'
+      seconds: '0'
+    weekday:
+      day: '*'
+    year: '*'
+  scheduleEnabled: true
+  sequence:
+    commands:
+    - script: |-
+        sudo docker pull containers.mpi-internal.com/yapo/data-quality-data-watch-athena:latest
+        sh /home/bnbiuser/datawatch/conf.sh
+        sudo docker run -v /home/bnbiuser/datawatch/datawatch.ini:/app/datawatch.ini \
+                        -e DATA_WATCH_CONF=/app/datawatch.ini \
+                        -e DATA_WATCH_SERVER_EMAIL_HOST=10.45.1.110 \
+                        -e DATA_WATCH_SERVER_EMAIL_PORT=25 \
+                        containers.mpi-internal.com/yapo/data-quality-data-watch-athena:latest
+    keepgoing: false
+    strategy: node-first
+  timeZone: America/Santiago
