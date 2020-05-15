@@ -60,7 +60,10 @@ QUERIES ={
         event_type || ' - ' || event_name as variation,
         SUM(amount_events) as value
         from dm_pulse.monitoring_events
-        where event_name in ('Ad phone number displayed', 'Ad phone number called', 'Ad reply submitted')
+        where event_name in ('Ad phone number displayed',
+            'Ad phone number called',
+            'Ad reply submitted',
+            'View AdReplyForm')
         and event_date::date = now()::date - 1
         group by 1,2""",
     "EVENTS_ADS": """select
@@ -70,9 +73,27 @@ QUERIES ={
         from dm_pulse.monitoring_events
         where
         event_name in ( 'Ad insertion confirmed',
-        	'Ad detail viewed',
-        	'Ad insertion error',
-        	'Ad insertion form')
+            'Ad detail viewed',
+            'Ad insertion error',
+            'Ad insertion form',
+            'Ad saved',
+            'Ad unsaved')
+        and event_date::date = now()::date - 1
+        group by 1,2""",
+    "EVENTS_MESSAGING_CENTER": """select
+        event_date::varchar dt_day,
+        event_type || ' - ' || event_name as variation,
+        sum(amount_events) as value
+        from dm_pulse.monitoring_events
+        where
+        event_name in ( 'Ad sms app opened',
+            'Bulk conversation delete',
+            'Click system message link',
+            'Conversation Close',
+            'Conversation View',
+            'Message sent',
+            'User click in send button reply conversation',
+            'User sends a message')
         and event_date::date = now()::date - 1
         group by 1,2""",
     "EVENTS_LISTING": """ select
