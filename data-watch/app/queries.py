@@ -93,8 +93,29 @@ QUERIES ={
             'Conversation View',
             'Message sent',
             'User click in send button reply conversation',
-            'User sends a message')
+            'User sends a message',
+            'Block user',
+            'Unblock user')
         and event_date::date = now()::date - 1
+        group by 1,2""",
+    "EVENTS_RECOMMENDATIONS": """select
+        event_date::varchar dt_day,
+        event_type || ' - ' || event_name as variation,
+        sum(amount_events) as value
+        from dm_pulse.monitoring_events
+        where
+        event_name in ( 'Recommendation widget viewable impression',
+            'Recommendation widget impression',
+            'Recommendation widget clicked')
+        and event_date::date = now()::date - 1
+        group by 1,2""",
+    "EVENTS_VIEWS": """select
+        event_date::date as dt_day,
+        event_type || ' - ' || event_name || ' - ' || object_type  as variation,
+        SUM(amount_events) as value
+        from dm_pulse.monitoring_events
+        where event_name in ('Inbox View', 'Page viewed', 'Inbox view')
+            and event_date::date = now()::date - 1
         group by 1,2""",
     "EVENTS_LISTING": """ select
         event_date::varchar dt_day,
@@ -102,7 +123,7 @@ QUERIES ={
         sum(amount_events) as value
         from dm_pulse.monitoring_events
         where
-        event_name in ( 'Listing viewed')
+        event_name in ( 'Listing viewed', 'Listing unsaved', 'Listing saved')
         and event_date::date = now()::date - 1
         group by 1,2""",
 
