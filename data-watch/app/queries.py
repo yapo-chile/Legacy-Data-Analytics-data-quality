@@ -55,6 +55,96 @@ QUERIES ={
                     'NGA Android App',
                     'NGA Ios App')
         group by fecha::date""",
+    "NAA_BY_PLATFORM": """
+        select
+	        timedate::varchar as dt_day,
+	        'NAA' || ' - ' || platform as variation,
+	        SUM(new_ads) as value
+        from 
+	        dm_peak.content
+        where
+	        timedate::date = now()::date - 1
+        group by 1,2""",
+    "NAA_PRI_BY_PLATFORM": """
+        select
+	        timedate::varchar as dt_day,
+	        'NAA_PRI' || ' - ' || platform as variation,
+	        SUM(naa_pri) as value
+        from 
+	        dm_peak.content
+        where
+	        timedate::date = now()::date - 1
+        group by 1,2""",
+    "NAA_PRO_BY_PLATFORM": """
+        select
+	        timedate::varchar as dt_day,
+	        'NAA_PRO' || ' - ' || platform as variation,
+	        SUM(naa_pro) as value
+        from 
+	        dm_peak.content
+        where
+	        timedate::date = now()::date - 1
+        group by 1,2""",
+    "SELLERS_BY_PLATFORM": """
+        select
+	        timedate::varchar as dt_day,
+	        'SELLERS' || ' - ' || platform as variation,
+	        SUM(sellers) as value
+        from 
+	        dm_peak.content
+        where
+	        timedate::date = now()::date - 1
+        group by 1,2""",
+    "SELLERS_PRI_BY_PLATFORM": """
+        select
+	        timedate::varchar as dt_day,
+	        'SELLERS_PRI' || ' - ' || platform as variation,
+	        SUM(sellers_pri) as value
+        from 
+	        dm_peak.content
+        where
+	        timedate::date = now()::date - 1
+        group by 1,2""",
+    "SELLERS_PRO_BY_PLATFORM": """
+        select
+	        timedate::varchar as dt_day,
+	        'SELLERS_PRO' || ' - ' || platform as variation,
+	        SUM(sellers_pro) as value
+        from 
+	        dm_peak.content
+        where
+	        timedate::date = now()::date - 1
+        group by 1,2""",
+    "NIA_BY_PLATFORM": """
+        select
+	        timedate::varchar as dt_day,
+	        'NIA' || ' - ' || platform as variation,
+	        SUM(new_inserted_ads) as value
+        from 
+	        dm_peak.content
+        where
+	        timedate::date = now()::date - 1
+        group by 1,2""",
+    "NIA_PRI_BY_PLATFORM": """
+        select
+	        timedate::varchar as dt_day,
+	        'NIA_PRI' || ' - ' || platform as variation,
+	        SUM(nia_pri) as value
+        from 
+	        dm_peak.content
+        where
+	        timedate::date = now()::date - 1
+        group by 1,2""",
+    "NIA_PRO_BY_PLATFORM": """
+        select
+	        timedate::varchar as dt_day,
+	        'NIA_PRO' || ' - ' || platform as variation,
+	        SUM(nia_pro) as value
+        from 
+	        dm_peak.content
+        where
+	        timedate::date = now()::date - 1
+        group by 1,2""",
     "EVENTS_LEADS": """select
         event_date::date as dt_day,
         event_type || ' - ' || event_name as variation,
