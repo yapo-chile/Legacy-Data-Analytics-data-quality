@@ -145,6 +145,66 @@ QUERIES ={
         where
 	        timedate::date = now()::date - 1
         group by 1,2""",
+    "DAU_XITI_BY_PLATFORM": """
+        select
+	        timedate::varchar as dt_day,
+	        'DAU_XITI' || ' - ' || platform as variation,
+	        SUM(dau_xiti) as value
+        from 
+	        dm_peak.traffic
+        where
+	        timedate::date = now()::date - 1
+        group by 1,2""",
+    "LEADS_XITI_BY_PLATFORM": """
+        select
+	        timedate::varchar as dt_day,
+	        'LEADS_XITI' || ' - ' || platform as variation,
+	        SUM(leads_xiti) as value
+        from 
+	        dm_peak.traffic
+        where
+	        timedate::date = now()::date - 1
+        group by 1,2""",
+    "DAU_PULSE_BY_PLATFORM": """
+        select
+	        timedate::varchar as dt_day,
+	        'DAU_PULSE' || ' - ' || platform as variation,
+	        SUM(dau_pulse) as value
+        from 
+	        dm_peak.traffic
+        where
+	        timedate::date = now()::date - 1
+        group by 1,2""",
+    "BROWSER_PULSE_BY_PLATFORM": """
+        select
+	        timedate::varchar as dt_day,
+	        'BROWSER_PULSE' || ' - ' || platform as variation,
+	        SUM(browsers_pulse) as value
+        from 
+	        dm_peak.traffic
+        where
+	        timedate::date = now()::date - 1
+        group by 1,2""",
+    "BUYERS_PULSE_BY_PLATFORM": """
+        select
+	        timedate::varchar as dt_day,
+	        'BUYERS_PULSE' || ' - ' || platform as variation,
+	        SUM(buyers_pulse) as value
+        from 
+	        dm_peak.traffic
+        where
+	        timedate::date = now()::date - 1
+        group by 1,2""",
+    "UNIQUE_LEADS_PULSE_BY_PLATFORM": """
+        select
+	        timedate::varchar as dt_day,
+	        'UNIQUE_LEADS_PULSE' || ' - ' || platform as variation,
+	        SUM(unique_leads_pulse) as value
+        from 
+	        dm_peak.traffic
+        where
+	        timedate::date = now()::date - 1
+        group by 1,2""",
     "EVENTS_LEADS": """select
         event_date::date as dt_day,
         event_type || ' - ' || event_name as variation,
