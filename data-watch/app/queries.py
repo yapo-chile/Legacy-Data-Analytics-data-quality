@@ -205,6 +205,39 @@ QUERIES ={
         where
 	        timedate::date = now()::date - 1
         group by 1,2""",
+    "REVENUES_PP_BY_VERTICAL": """
+        select
+	        date_id::varchar as dt_day,
+	        'REVENUES_PP' || ' - ' || vertical as variation,
+	        SUM(amount) as value
+        from 
+	        dm_peak.revenues
+        where
+	        date_id::date = now()::date - 1
+	        and revenue_type in ('Premium Products')
+        group by 1,2""",
+    "REVENUES_PACKS_BY_VERTICAL": """
+        select
+	        date_id::varchar as dt_day,
+	        'REVENUES_PACKS' || ' - ' || vertical as variation,
+	        SUM(amount) as value
+        from 
+	        dm_peak.revenues
+        where
+	        date_id::date = now()::date - 1
+	        and revenue_type in ('Packs')
+        group by 1,2""",
+    "REVENUES_IF_BY_VERTICAL": """
+        select
+	        date_id::varchar as dt_day,
+	        'REVENUES_IF' || ' - ' || vertical as variation,
+	        SUM(amount) as value
+        from 
+	        dm_peak.revenues
+        where
+	        date_id::date = now()::date - 1
+	        and revenue_type in ('Insertion Fee')
+        group by 1,2""",
     "EVENTS_LEADS": """select
         event_date::date as dt_day,
         event_type || ' - ' || event_name as variation,
