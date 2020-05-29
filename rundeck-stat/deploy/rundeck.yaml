@@ -22,18 +22,17 @@
   notification:
     onfailure:
       email:
-        recipients: bi_team@schibsted.cl
-        subject: ${job.execid} ${execution.status} ${job.name}
-    onstart:
+        recipients: data_team@adevinta.com
+        subject: ${job.execid} ${execution.status} ${job.name} - Fallo definitivo
+    onretryablefailure:
       email:
-        recipients: bi_team@schibsted.cl
-        subject: ${job.execid} ${execution.status} ${job.name}
-    onsuccess:
-      email:
-        recipients: bi_team@schibsted.cl
-        subject: ${job.execid} ${execution.status} ${job.name}
+        recipients: data_team@adevinta.com
+        subject: ${job.execid} ${execution.status} ${job.name} - Fallo por reintento
   notifyAvgDurationThreshold: null
   scheduleEnabled: true
+  retry:
+    retry: 3
+    delay: 20m
   sequence:
     commands:
     - script: |-
