@@ -3,7 +3,10 @@ include
 etc
 lib
 share
+usr
+Library
 .Python
+secrets
 *.pyc
 pgdata
 .mypy_cache
