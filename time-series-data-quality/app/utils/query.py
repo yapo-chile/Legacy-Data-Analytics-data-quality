@@ -267,6 +267,23 @@ class Query:
                 """.format(self.params.get_date_to())
         return query
 
+    def query_insert_output_dw(self) -> str:
+        """
+        Method return str with query
+        """
+        query = """
+                INSERT INTO dm_analysis.temp_time_series_data_quality
+                            (timedate,
+                             entity,
+                             entity_var,
+                             w_rule_1,
+                             w_rule_2,
+                             w_rule_3,
+                             w_rule_4,
+                             eval_rank)
+                VALUES %s;"""
+        return query
+
     def delete_base_output_eval(self) -> str:
         """
         Method that returns events of the day

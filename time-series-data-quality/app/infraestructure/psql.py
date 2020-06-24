@@ -66,38 +66,16 @@ class Database:
         cursor.close()
         return pd_result
 
-    def insert_data_output_eval(self, data_dict: pd.DataFrame) -> None:
-        self.log.info('INSERT INTO %s', self.conf.table)
+    def insert_data(self, insert_query, data_row) -> None:
         page_size: int = 10000
         with self.connection.cursor() as cursor:
             psycopg2.extras \
                 .execute_values(cursor,
-                                """ INSERT INTO """ + self.conf.table +
-                                """ ( timedate,
-                                      entity,
-                                      entity_var,
-                                      w_rule_1,
-                                      w_rule_2,
-                                      w_rule_3,
-                                      w_rule_4,
-                                      eval_rank
-                                    )
-                                    VALUES %s; """, ((
-                                        row.timedate,
-                                        row.entity,
-                                        row.entity_var,
-                                        row.w_rule_1,
-                                        row.w_rule_2,
-                                        row.w_rule_3,
-                                        row.w_rule_4,
-                                        row.eval_rank
-                                    ) for row in data_dict.itertuples()),
+                                insert_query,
+                                data_row,
+                                template=None,
                                 page_size=page_size)
-            self.log.info('INSERT %s COMMIT.', self.conf.table)
             self.connection.commit()
-            self.log.info('CLOSE CURSOR %s', self.conf.table)
-            cursor.close()
-
 
     def close_connection(self):
         """

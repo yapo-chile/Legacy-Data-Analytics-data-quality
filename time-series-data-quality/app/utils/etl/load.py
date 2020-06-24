@@ -1,3 +1,4 @@
+import logging
 import pandas as pd
 from infraestructure.conf import getConf
 from infraestructure.psql import Database
@@ -10,9 +11,13 @@ class Load:
     def write_data_dwh_output_eval(self,
                                    config: getConf,
                                    params: ReadParams,
-                                   data_dwh: pd.DataFrame) -> None:
+                                   data_dict: pd.DataFrame) -> None:
         query = Query(config, params)
         DB_WRITE = Database(conf=config.DWConf)
         DB_WRITE.execute_command(query.delete_base_output_eval())
-        DB_WRITE.insert_data_output_eval(data_dwh)
+        for row in data_dict.itertuples():
+            data_row = [(row.timedate, row.entity, row.entity_var, row.w_rule_1,
+                         row.w_rule_2, row.w_rule_3, row.w_rule_4, row.eval_rank)]
+            DB_WRITE.insert_data(query.query_insert_output_dw(), data_row)
+        logging.info('INSERT dm_analysis.temp_time_series_data_quality COMMIT.')
         DB_WRITE.close_connection()
