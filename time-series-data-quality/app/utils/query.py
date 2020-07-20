@@ -68,7 +68,7 @@ class Query:
                     FROM yapocl_databox.insights_events_behavioral_fact_layer_365d
                     WHERE 
                         DATE(SUBSTR(event_date, 1,10)) BETWEEN (SELECT min(day_range) as date_from FROM DATES_RANGE_COLUMN) AND (SELECT max(day_range) as date_to FROM DATES_RANGE_COLUMN)
-                        and event_name in ('Ad phone number called', 'Ad phone number displayed', 'Ad reply submitted', 'Ad detail viewed', 'Listing viewed')
+                        and event_name in ('Ad phone number called', 'Ad phone number displayed', 'Ad reply submitted', 'Ad detail viewed', 'Listing viewed', 'Ad insertion confirmed')
                         and client_id = 'yapocl'
                     GROUP BY 1,2,3
                     
@@ -83,6 +83,7 @@ class Query:
                         	when event_type = 'Show' then 'q_event_type_show'||'-'||product_type
                         	when event_type = 'Send' then 'q_event_type_Send'||'-'||product_type
                             when event_type = 'View' then 'q_event_type_view'||'-'||product_type
+                            when event_type = 'Create' then 'q_event_type_create'||'-'||product_type
                             when event_type is null then 'q_event_type_null'||'-'||product_type
                             else 'q_event_type_others'||'-'||product_type
                         end entity_var,
@@ -90,7 +91,7 @@ class Query:
                     FROM yapocl_databox.insights_events_behavioral_fact_layer_365d
                     WHERE 
                         DATE(SUBSTR(event_date, 1,10)) BETWEEN (SELECT min(day_range) as date_from FROM DATES_RANGE_COLUMN) AND (SELECT max(day_range) as date_to FROM DATES_RANGE_COLUMN)
-                        and event_name in ('Ad phone number called', 'Ad phone number displayed', 'Ad reply submitted', 'Ad detail viewed', 'Listing viewed')
+                        and event_name in ('Ad phone number called', 'Ad phone number displayed', 'Ad reply submitted', 'Ad detail viewed', 'Listing viewed', 'Ad insertion confirmed')
                         and client_id = 'yapocl'
                     GROUP BY 1,2,
                         case
@@ -98,6 +99,7 @@ class Query:
                         	when event_type = 'Show' then 'q_event_type_show'||'-'||product_type
                         	when event_type = 'Send' then 'q_event_type_Send'||'-'||product_type
                             when event_type = 'View' then 'q_event_type_view'||'-'||product_type
+                            when event_type = 'Create' then 'q_event_type_create'||'-'||product_type
                             when event_type is null then 'q_event_type_null'||'-'||product_type
                             else 'q_event_type_others'||'-'||product_type
                         end
@@ -113,6 +115,7 @@ class Query:
                         	when object_type = 'Message' then 'q_object_type_message'||'-'||product_type
                         	when object_type = 'ClassifiedAd' then 'q_object_type_classifiedAd'||'-'||product_type
                             when object_type = 'Listing' then 'q_object_type_listing'||'-'||product_type
+                            when object_type = 'Confirmation' then 'q_object_type_confirmation'||'-'||product_type
                             when object_type is null then 'q_object_type_null'||'-'||product_type
                             else 'q_object_type_others'||'-'||product_type
                         end entity_var,
@@ -120,7 +123,7 @@ class Query:
                     FROM yapocl_databox.insights_events_behavioral_fact_layer_365d
                     WHERE 
                         DATE(SUBSTR(event_date, 1,10)) BETWEEN (SELECT min(day_range) as date_from FROM DATES_RANGE_COLUMN) AND (SELECT max(day_range) as date_to FROM DATES_RANGE_COLUMN)
-                        and event_name in ('Ad phone number called', 'Ad phone number displayed', 'Ad reply submitted', 'Ad detail viewed', 'Listing viewed')
+                        and event_name in ('Ad phone number called', 'Ad phone number displayed', 'Ad reply submitted', 'Ad detail viewed', 'Listing viewed', 'Ad insertion confirmed')
                         and client_id = 'yapocl'
                     GROUP BY 1,2,
                             case
@@ -128,6 +131,7 @@ class Query:
                             	when object_type = 'Message' then 'q_object_type_message'||'-'||product_type
                             	when object_type = 'ClassifiedAd' then 'q_object_type_classifiedAd'||'-'||product_type
                                 when object_type = 'Listing' then 'q_object_type_listing'||'-'||product_type
+                                when object_type = 'Confirmation' then 'q_object_type_confirmation'||'-'||product_type
                                 when object_type is null then 'q_object_type_null'||'-'||product_type
                                 else 'q_object_type_others'||'-'||product_type
                             end
@@ -143,7 +147,7 @@ class Query:
                     FROM yapocl_databox.insights_events_behavioral_fact_layer_365d
                     WHERE 
                         DATE(SUBSTR(event_date, 1,10)) BETWEEN (SELECT min(day_range) as date_from FROM DATES_RANGE_COLUMN) AND (SELECT max(day_range) as date_to FROM DATES_RANGE_COLUMN)
-                        and event_name in ('Ad phone number called', 'Ad phone number displayed', 'Ad reply submitted', 'Ad detail viewed')
+                        and event_name in ('Ad phone number called', 'Ad phone number displayed', 'Ad reply submitted', 'Ad detail viewed', 'Ad insertion confirmed')
                         and client_id = 'yapocl'
                     GROUP BY 1,2,3
                     
@@ -163,7 +167,7 @@ class Query:
                     FROM yapocl_databox.insights_events_behavioral_fact_layer_365d
                     WHERE 
                         DATE(SUBSTR(event_date, 1,10)) BETWEEN (SELECT min(day_range) as date_from FROM DATES_RANGE_COLUMN) AND (SELECT max(day_range) as date_to FROM DATES_RANGE_COLUMN)
-                        and event_name in ('Ad phone number called', 'Ad phone number displayed', 'Ad reply submitted', 'Ad detail viewed', 'Listing viewed')
+                        and event_name in ('Ad phone number called', 'Ad phone number displayed', 'Ad reply submitted', 'Ad detail viewed', 'Listing viewed', 'Ad insertion confirmed')
                         and client_id = 'yapocl'
                     GROUP BY 1,2,
                         case
@@ -195,7 +199,7 @@ class Query:
                     FROM yapocl_databox.insights_events_behavioral_fact_layer_365d
                     WHERE 
                         DATE(SUBSTR(event_date, 1,10)) BETWEEN (SELECT min(day_range) as date_from FROM DATES_RANGE_COLUMN) AND (SELECT max(day_range) as date_to FROM DATES_RANGE_COLUMN)
-                        and event_name in ('Ad phone number called', 'Ad phone number displayed', 'Ad reply submitted', 'Ad detail viewed', 'Listing viewed')
+                        and event_name in ('Ad phone number called', 'Ad phone number displayed', 'Ad reply submitted', 'Ad detail viewed', 'Listing viewed', 'Ad insertion confirmed')
                         and client_id = 'yapocl'
                     GROUP BY 1,2,
                         case
@@ -227,7 +231,7 @@ class Query:
                     FROM yapocl_databox.insights_events_behavioral_fact_layer_365d
                     WHERE 
                         DATE(SUBSTR(event_date, 1,10)) BETWEEN (SELECT min(day_range) as date_from FROM DATES_RANGE_COLUMN) AND (SELECT max(day_range) as date_to FROM DATES_RANGE_COLUMN)
-                        and event_name in ('Ad phone number called', 'Ad phone number displayed', 'Ad reply submitted', 'Ad detail viewed', 'Listing viewed')
+                        and event_name in ('Ad phone number called', 'Ad phone number displayed', 'Ad reply submitted', 'Ad detail viewed', 'Listing viewed', 'Ad insertion confirmed')
                         and client_id = 'yapocl'
                     GROUP BY 1,2,
                         case
@@ -254,7 +258,7 @@ class Query:
                     FROM yapocl_databox.insights_events_behavioral_fact_layer_365d
                     WHERE 
                         DATE(SUBSTR(event_date, 1,10)) BETWEEN (SELECT min(day_range) as date_from FROM DATES_RANGE_COLUMN) AND (SELECT max(day_range) as date_to FROM DATES_RANGE_COLUMN)
-                        and event_name in ('Ad phone number called', 'Ad phone number displayed', 'Ad reply submitted', 'Ad detail viewed', 'Listing viewed')
+                        and event_name in ('Ad phone number called', 'Ad phone number displayed', 'Ad reply submitted', 'Ad detail viewed', 'Listing viewed', 'Ad insertion confirmed')
                         and client_id = 'yapocl'
                     GROUP BY 1,2,
                         case
