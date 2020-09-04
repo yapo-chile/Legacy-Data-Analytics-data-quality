@@ -1,7 +1,8 @@
 import logging
+import pandas as pd
 import psycopg2
 import psycopg2.extras
-import pandas as pd
+
 
 
 class Database:
