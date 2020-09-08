@@ -1,6 +1,5 @@
 # pylint: disable=no-member
 # utf-8
-import sys
 import logging
 import smtplib
 from email.mime.text import MIMEText
