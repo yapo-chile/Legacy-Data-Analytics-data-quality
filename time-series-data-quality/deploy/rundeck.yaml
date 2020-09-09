@@ -2,12 +2,15 @@
   description: |-
         sudo docker pull containers.mpi-internal.com/yapo/data-quality-time_series_data_quality:latest
         
-        sudo docker run -v /home/bnbiuser/secrets/pulse_auth:/app/pulse-secret \
+        sudo docker run --net=host --rm \
+                        -v /home/bnbiuser/secrets/pulse_auth:/app/pulse-secret \
                         -v /home/bnbiuser/secrets/dw_db:/app/db-secret \
                         -v /home/bnbiuser/secrets/blocket_db:/app/blocket-secret \
+                        -v /home/bnbiuser/secrets/smtp-secret:/app/smtp-secret \
                         -e APP_PULSE_SECRET=/app/pulse-secret \
                         -e APP_DB_SECRET=/app/blocket-secret \
                         -e APP_DW_SECRET=/app/db-secret \
+                        -e APP_SMTP_SECRET=/app/smtp-secret \
                         containers.mpi-internal.com/yapo/data-quality-time_series_data_quality:latest
   executionEnabled: true
   group: DATA-QUALITY
@@ -48,12 +51,15 @@
     - script: |-
         sudo docker pull containers.mpi-internal.com/yapo/data-quality-time_series_data_quality:latest
         
-        sudo docker run -v /home/bnbiuser/secrets/pulse_auth:/app/pulse-secret \
+        sudo docker run --net=host --rm \
+                        -v /home/bnbiuser/secrets/pulse_auth:/app/pulse-secret \
                         -v /home/bnbiuser/secrets/dw_db:/app/db-secret \
                         -v /home/bnbiuser/secrets/blocket_db:/app/blocket-secret \
+                        -v /home/bnbiuser/secrets/smtp-secret:/app/smtp-secret \
                         -e APP_PULSE_SECRET=/app/pulse-secret \
                         -e APP_DB_SECRET=/app/blocket-secret \
                         -e APP_DW_SECRET=/app/db-secret \
+                        -e APP_SMTP_SECRET=/app/smtp-secret \
                         containers.mpi-internal.com/yapo/data-quality-time_series_data_quality:latest
     keepgoing: false
     strategy: node-first
