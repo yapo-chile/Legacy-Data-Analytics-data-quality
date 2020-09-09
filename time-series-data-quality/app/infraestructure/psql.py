@@ -4,7 +4,6 @@ import psycopg2
 import psycopg2.extras
 
 
-
 class Database:
     """
     Class that allow do operations with postgresql database.

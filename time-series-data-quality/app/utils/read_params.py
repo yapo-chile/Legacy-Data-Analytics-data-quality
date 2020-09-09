@@ -13,6 +13,8 @@ class ReadParams:
         self.date_from = None
         self.date_to = None
         self.master = None
+        self.email_from = None
+        self.email_to = []
         self.logger = logging.getLogger('readParams')
         date_format = """%(asctime)s,%(msecs)d %(levelname)-2s """
         info_format = """[%(filename)s:%(lineno)d] %(message)s"""
@@ -114,6 +116,10 @@ class ReadParams:
             self.date_to = date_str.strptime(value, '%Y-%m-%d').date()
         elif key == '-master':
             self.master = value
+        elif key == '-email_to':
+            self.email_to.append(value)
+        elif key == '-email_from':
+            self.email_from = value
 
     def validate_params(self) -> None:
         """
@@ -130,9 +136,14 @@ class ReadParams:
             self.date_to = temp_date
         if self.master is None:
             self.master = 'local'
-
+        if self.email_from:
+            self.email_from = "noreply@yapo.cl"
+        if self.email_to:
+            self.email_to = ['data_team@adevinta.com']
         self.logger.info('Date from : %s', self.date_from)
         self.logger.info('Date to   : %s', self.date_to)
         self.logger.info('Current year : %s', self.get_current_year())
         self.logger.info('Last year : %s', self.get_last_year())
         self.logger.info('Node : %s', self.master)
+        self.logger.info('Email from : %s', self.email_from)
+        self.logger.info('Email to : {}'.format(", ".join(self.email_to)))

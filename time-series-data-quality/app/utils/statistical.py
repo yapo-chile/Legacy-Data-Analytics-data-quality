@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from infraestructure.conf import getConf
+from infraestructure.email import Email
 from utils.read_params import ReadParams
 from utils.etl.extraction import Extraction
 from utils.etl.load import Load
@@ -204,5 +205,21 @@ class Statistical:
         # Instance output data object
         load = Load()
         load.write_data_dwh_output_eval(self.conf, self.params, df_result_eval)
+
+        # Send email of data quality review
+        Email(
+            subject="Data Quality",
+            body="""
+            Estimad@s,
+                Se adjunta resultado revision de calidad de datos.
+                Quedamos atentos por cualquier duda o consulta.
+            Saludos,
+            Data Team
+            -----
+            Este correo ha sido generado de forma automática.
+            """
+        ).send_email_with_csv(
+            data_to_send=[('data_quality_review.csv', df_result_eval)]
+        )
 
         return True
