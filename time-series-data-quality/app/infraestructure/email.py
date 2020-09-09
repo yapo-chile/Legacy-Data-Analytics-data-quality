@@ -6,8 +6,8 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email.encoders import encode_base64
+from infraestructure.conf import getConf
 from utils.read_params import ReadParams
-
 
 class Email:
     """
@@ -15,6 +15,7 @@ class Email:
     """
     def __init__(self,
                  params: ReadParams,
+                 conf: getConf,
                  subject='',
                  body='',
                  email_from=None,
@@ -25,7 +26,7 @@ class Email:
             if email_to is None else email_to
         self.subject = subject
         self.body = body
-        self.smtp_server = "10.45.1.110"
+        self.smtp_server = conf.SMPTConf.host
         self.logger = logging.getLogger('email')
 
     def send_email(self, msg):

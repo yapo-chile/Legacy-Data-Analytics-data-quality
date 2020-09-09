@@ -4,6 +4,8 @@ import environ
 INI_PULSE = environ.secrets.INISecrets.from_path_in_env("APP_PULSE_SECRET")
 INI_DB = environ.secrets.INISecrets.from_path_in_env("APP_DB_SECRET")
 INI_DW = environ.secrets.INISecrets.from_path_in_env("APP_DW_SECRET")
+INI_SMTP = environ.secrets.INISecrets.from_path_in_env("APP_SMTP_SECRET")
+
 
 @environ.config(prefix="APP")
 class AppConfig:
@@ -50,10 +52,17 @@ class AppConfig:
         password: str = INI_DW.secret(name="password", default=environ.var())
         table: str = environ.var("dm_analysis.temp_time_series_data_quality")
 
+    @environ.config(prefix="SMTP")
+    class SMTPConfig:
+        """
+        SMTP Config representing the host of SMTP Sever to send email
+        """
+        host: str = INI_SMTP.secret(name="host", default=environ.var())
+
     athenaConf = environ.group(AthenaConfig)
     blocketConf = environ.group(DB_BlocketConfig)
     DWConf = environ.group(DB_DWConfig)
-
+    SMPTConf = environ.group(SMTPConfig)
 
 def getConf():
     return environ.to_config(AppConfig)
