@@ -51,12 +51,14 @@ class Email:
             Param [dataframe_to_csv] is a pandas dataframe with data that
                 will be saved as a csv and sent
         """
+        self.logger.info('Preparing email')
         msg = MIMEMultipart('mixed')
         msg['Subject'] = self.subject
-        msg['From'] = self.email_from
+        msg['From'] = self.email_froms
         msg['To'] = ", ".join(self.email_to)
         msg.attach(MIMEText(self.body, 'plain'))
         for file in data_to_send:
+            self.logger.info('Charging files')
             file[1].to_csv(file[0], sep=";", index=False)
             part = MIMEBase('application', "octet-stream")
             part.set_payload(open(file[0], "rb").read())
@@ -65,3 +67,4 @@ class Email:
                             'attachment', filename=file[0])
             msg.attach(part)
             self.send_email(msg)
+            self.logger.info('File {} charged'.format(file[0]))

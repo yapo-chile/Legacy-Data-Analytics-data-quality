@@ -208,6 +208,8 @@ class Statistical:
 
         # Send email of data quality review
         Email(
+            self.params,
+            self.conf,
             subject="Data Quality",
             body="""
             Estimad@s,
