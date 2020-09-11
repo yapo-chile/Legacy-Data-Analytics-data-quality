@@ -54,7 +54,7 @@ class Email:
         self.logger.info('Preparing email')
         msg = MIMEMultipart('mixed')
         msg['Subject'] = self.subject
-        msg['From'] = self.email_froms
+        msg['From'] = self.email_from
         msg['To'] = ", ".join(self.email_to)
         msg.attach(MIMEText(self.body, 'plain'))
         for file in data_to_send:
