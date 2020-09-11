@@ -136,10 +136,11 @@ class ReadParams:
             self.date_to = temp_date
         if self.master is None:
             self.master = 'local'
-        if self.email_from:
+        if self.email_from is None:
             self.email_from = "noreply@yapo.cl"
-        if self.email_to:
+        if self.email_to == []:
             self.email_to = ['data_team@adevinta.com']
+
         self.logger.info('Date from : %s', self.date_from)
         self.logger.info('Date to   : %s', self.date_to)
         self.logger.info('Current year : %s', self.get_current_year())

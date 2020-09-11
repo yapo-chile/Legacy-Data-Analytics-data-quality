@@ -66,5 +66,5 @@ class Email:
             part.add_header('Content-Disposition',
                             'attachment', filename=file[0])
             msg.attach(part)
-            self.send_email(msg)
             self.logger.info('File {} charged'.format(file[0]))
+        self.send_email(msg)
