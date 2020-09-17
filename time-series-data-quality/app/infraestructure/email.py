@@ -88,7 +88,7 @@ class Email:
         msg.attach(MIMEText(self.body, 'plain'))
         for file in data_to_send:
             self.logger.info('Charging files')
-            file[1].to_excel(file[0], sep=";", index=False)
+            file[1].to_excel(file[0], index=False)
             part = MIMEBase('application', "octet-stream")
             part.set_payload(open(file[0], "rb").read())
             encode_base64(part)
