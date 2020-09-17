@@ -1,7 +1,7 @@
 - defaultTab: nodes
   description: |-
-        sudo docker pull containers.mpi-internal.com/yapo/data-quality-time_series_data_quality:latest
-        
+        Path: data-quality/time-series-data-quality
+        sudo docker pull containers.mpi-internal.com/yapo/data-quality-time_series_data_quality:latest      
         sudo docker run --net=host --rm \
                         -v /home/bnbiuser/secrets/pulse_auth:/app/pulse-secret \
                         -v /home/bnbiuser/secrets/dw_db:/app/db-secret \
