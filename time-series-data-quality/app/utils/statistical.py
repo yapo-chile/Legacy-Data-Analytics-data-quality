@@ -214,14 +214,13 @@ class Statistical:
             body="""
             Estimad@s,
                 Se adjunta resultado revision de calidad de datos.
-                Quedamos atentos por cualquier duda o consulta.
             Saludos,
             Data Team
             -----
             Este correo ha sido generado de forma automática.
             """
-        ).send_email_with_csv(
-            data_to_send=[('data_quality_review.csv', df_result_eval)]
+        ).send_email_with_excel(
+            data_to_send=[('data_quality_review.xls', df_result_eval)]
         )
 
         return True
