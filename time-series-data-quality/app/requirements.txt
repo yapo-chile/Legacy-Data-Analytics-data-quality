@@ -6,3 +6,4 @@ pandas==0.25.3
 requests==2.22.0
 unidecode==1.1.1
 pyathena
+xlwt
