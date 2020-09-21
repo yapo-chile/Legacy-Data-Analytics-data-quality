@@ -63,7 +63,8 @@ QUERIES ={
         from 
 	        dm_peak.content
         where
-	        timedate::date = now()::date - 1
+            vertical not in ('All Yapo')
+	        and timedate::date = now()::date - 1
         group by 1,2""",
     "NAA_PRI_BY_PLATFORM": """
         select
@@ -72,8 +73,8 @@ QUERIES ={
 	        SUM(naa_pri) as value
         from 
 	        dm_peak.content
-        where
-	        timedate::date = now()::date - 1
+        where vertical not in ('All Yapo')
+	        and timedate::date = now()::date - 1
         group by 1,2""",
     "NAA_PRO_BY_PLATFORM": """
         select
@@ -82,8 +83,8 @@ QUERIES ={
 	        SUM(naa_pro) as value
         from 
 	        dm_peak.content
-        where
-	        timedate::date = now()::date - 1
+        where vertical not in ('All Yapo')
+	        and timedate::date = now()::date - 1
         group by 1,2""",
     "SELLERS_BY_PLATFORM": """
         select
@@ -92,8 +93,8 @@ QUERIES ={
 	        SUM(sellers) as value
         from 
 	        dm_peak.content
-        where
-	        timedate::date = now()::date - 1
+        where vertical not in ('All Yapo')
+	        and timedate::date = now()::date - 1
         group by 1,2""",
     "SELLERS_PRI_BY_PLATFORM": """
         select
@@ -102,8 +103,8 @@ QUERIES ={
 	        SUM(sellers_pri) as value
         from 
 	        dm_peak.content
-        where
-	        timedate::date = now()::date - 1
+        where vertical not in ('All Yapo')
+	        and timedate::date = now()::date - 1
         group by 1,2""",
     "SELLERS_PRO_BY_PLATFORM": """
         select
@@ -112,8 +113,8 @@ QUERIES ={
 	        SUM(sellers_pro) as value
         from 
 	        dm_peak.content
-        where
-	        timedate::date = now()::date - 1
+        where vertical not in ('All Yapo')
+	        and timedate::date = now()::date - 1
         group by 1,2""",
     "NIA_BY_PLATFORM": """
         select
@@ -122,8 +123,8 @@ QUERIES ={
 	        SUM(new_inserted_ads) as value
         from 
 	        dm_peak.content
-        where
-	        timedate::date = now()::date - 1
+        where vertical not in ('All Yapo')
+	        and timedate::date = now()::date - 1
         group by 1,2""",
     "NIA_PRI_BY_PLATFORM": """
         select
@@ -132,8 +133,8 @@ QUERIES ={
 	        SUM(nia_pri) as value
         from 
 	        dm_peak.content
-        where
-	        timedate::date = now()::date - 1
+        where vertical not in ('All Yapo')
+	        and timedate::date = now()::date - 1
         group by 1,2""",
     "NIA_PRO_BY_PLATFORM": """
         select
@@ -142,8 +143,8 @@ QUERIES ={
 	        SUM(nia_pro) as value
         from 
 	        dm_peak.content
-        where
-	        timedate::date = now()::date - 1
+        where vertical not in ('All Yapo')
+	        and timedate::date = now()::date - 1
         group by 1,2""",
     "DAU_XITI_BY_PLATFORM": """
         select
