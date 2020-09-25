@@ -153,8 +153,8 @@ QUERIES ={
 	        SUM(dau_xiti) as value
         from 
 	        dm_peak.traffic
-        where
-	        timedate::date = now()::date - 1
+        where vertical not in ('All Yapo')
+	        and timedate::date = now()::date - 1
         group by 1,2""",
     "LEADS_XITI_BY_PLATFORM": """
         select
@@ -163,8 +163,8 @@ QUERIES ={
 	        SUM(leads_xiti) as value
         from 
 	        dm_peak.traffic
-        where
-	        timedate::date = now()::date - 1
+        where vertical not in ('All Yapo')
+	        and timedate::date = now()::date - 1
         group by 1,2""",
     "DAU_PULSE_BY_PLATFORM": """
         select
@@ -173,8 +173,8 @@ QUERIES ={
 	        SUM(dau_pulse) as value
         from 
 	        dm_peak.traffic
-        where
-	        timedate::date = now()::date - 1
+        where vertical not in ('All Yapo')
+	        and timedate::date = now()::date - 1
         group by 1,2""",
     "BROWSER_PULSE_BY_PLATFORM": """
         select
@@ -183,8 +183,8 @@ QUERIES ={
 	        SUM(browsers_pulse) as value
         from 
 	        dm_peak.traffic
-        where
-	        timedate::date = now()::date - 1
+        where vertical not in ('All Yapo')
+	        and timedate::date = now()::date - 1
         group by 1,2""",
     "BUYERS_PULSE_BY_PLATFORM": """
         select
@@ -193,8 +193,8 @@ QUERIES ={
 	        SUM(buyers_pulse) as value
         from 
 	        dm_peak.traffic
-        where
-	        timedate::date = now()::date - 1
+        where vertical not in ('All Yapo')
+	        and timedate::date = now()::date - 1
         group by 1,2""",
     "UNIQUE_LEADS_PULSE_BY_PLATFORM": """
         select
@@ -203,8 +203,8 @@ QUERIES ={
 	        SUM(unique_leads_pulse) as value
         from 
 	        dm_peak.traffic
-        where
-	        timedate::date = now()::date - 1
+        where vertical not in ('All Yapo')
+	        and timedate::date = now()::date - 1
         group by 1,2""",
     "REVENUES_PP_BY_VERTICAL": """
         select
