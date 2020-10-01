@@ -12,6 +12,14 @@ class Extraction:
         self.params = params
         self.conf = conf
 
+    def get_data_last_day(self):
+        query = Query(self.conf, self.params)
+        db_source = Database(conf=self.conf.DWConf)
+        data_last_day = db_source.select_to_dict(
+            query.query_data_last_day())
+        db_source.close_connection()
+        return data_last_day
+
     # Query data from Pulse bucket
     def get_source_data_pulse(self):
         athena = Athena(conf=self.conf.athenaConf)

@@ -40,7 +40,7 @@ class Email:
                         self.email_to,
                         msg.as_string())
 
-    def send_email_with_csv(self, data_to_send):
+    def send_email_create_csv(self, data_to_send):
         """
         Method [send_email_with_csv] send a email with one or multiples
         csv files attached to recipients.
@@ -58,7 +58,7 @@ class Email:
         msg['To'] = ", ".join(self.email_to)
         msg.attach(MIMEText(self.body, 'plain'))
         for file in data_to_send:
-            self.logger.info('Charging files')
+            self.logger.info('Creating files')
             file[1].to_csv(file[0], sep=";", index=False)
             part = MIMEBase('application', "octet-stream")
             part.set_payload(open(file[0], "rb").read())
@@ -69,7 +69,7 @@ class Email:
             self.logger.info('File {} charged'.format(file[0]))
         self.send_email(msg)
 
-    def send_email_with_excel(self, data_to_send):
+    def send_email_create_excel(self, data_to_send):
         """
         Method [send_email_with_excel] send a email with one or multiples
         excel files attached to recipients.
@@ -87,7 +87,7 @@ class Email:
         msg['To'] = ", ".join(self.email_to)
         msg.attach(MIMEText(self.body, 'plain'))
         for file in data_to_send:
-            self.logger.info('Charging files')
+            self.logger.info('Creating files')
             file[1].to_excel(file[0], index=False)
             part = MIMEBase('application', "octet-stream")
             part.set_payload(open(file[0], "rb").read())
@@ -96,4 +96,27 @@ class Email:
                             'attachment', filename=file[0])
             msg.attach(part)
             self.logger.info('File {} charged'.format(file[0]))
+        self.send_email(msg)
+
+    def send_email_w_file(self, files):
+        """
+        Method [send_email_w_file] send a email with one or multiples
+        files attached to recipients.
+        Param [ files ] is a array of name of files to send
+        """
+        self.logger.info('Preparing email')
+        msg = MIMEMultipart('mixed')
+        msg['Subject'] = self.subject
+        msg['From'] = self.email_from
+        msg['To'] = ", ".join(self.email_to)
+        msg.attach(MIMEText(self.body, 'plain'))
+        for file in files:
+            self.logger.info('Charging files')
+            part = MIMEBase('application', "octet-stream")
+            part.set_payload(open(file, "rb").read())
+            encode_base64(part)
+            part.add_header('Content-Disposition',
+                            'attachment', filename=file)
+            msg.attach(part)
+            self.logger.info('File {} charged'.format(file))
         self.send_email(msg)
