@@ -213,17 +213,6 @@ class Statistical:
         df_yest['value'] = 1
         df_urg, df_no_urg = self.separe_timelines_by_urgency(df_melt, df_yest)
 
-        # pylint: disable=E0110
-        writer = pd.ExcelWriter('data_quality_review.xlsx',
-                                engine='xlsxwriter')
-        df_urg.to_excel(writer,
-                        sheet_name='Alta Prioridad',
-                        index=False)
-        df_no_urg.to_excel(writer,
-                           sheet_name='Baja Prioridad',
-                           index=False)
-        writer.save()
-
         Email(
             self.params,
             self.conf,
@@ -237,8 +226,12 @@ class Statistical:
             Este correo ha sido generado de forma automática.
             """,
             email_to=['ricardo.alvarez@adevinta.com']
-        ).send_email_w_file(
-            files=['data_quality_review.xlsx']
+        ).send_email_with_excel(
+            file_name='data_quality_review.xlsx',
+            excel_sheets=[
+                ('Alta Prioridad', df_urg),
+                ('Baja Prioridad', df_no_urg)
+            ]
         )
 
     def generate(self):
@@ -305,11 +298,12 @@ class Statistical:
         load.write_data_timelines_in_dwh(self.conf,
                                          self.params,
                                          df_to_save)
-        self.prepare_data_to_send(df_result_eval[['entity',
-                                                  'entity_var',
-                                                  'w_rule_1',
-                                                  'w_rule_2',
-                                                  'w_rule_3',
-                                                  'w_rule_4']],
-                                  df_eval_obj.get_data_last_day())
+        self.prepare_data_to_send(df_result_eval[[
+            'entity',
+            'entity_var',
+            'w_rule_1',
+            'w_rule_2',
+            'w_rule_3',
+            'w_rule_4'
+        ]], df_eval_obj.get_data_last_day())
         return True
