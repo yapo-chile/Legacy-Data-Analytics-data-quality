@@ -10,9 +10,10 @@ services:
       APP_PULSE_SECRET: /app/pulse-secret
       APP_DB_SECRET: /app/db-secret
       APP_DW_SECRET: /app/dw-secret
-      APP_PICKLES: /app/pickles
+      APP_SMTP_SECRET: /app/smtp-secret
     volumes:
-      - ./secrets/blocket/secrets_blocket:/app/db-secret
-      - ./secrets/dw/secrets_DW:/app/dw-secret
-      - ./secrets/pulse/secrets_pulse:/app/pulse-secret
-      - ./pickles:/app/pickles
+      - ~/Projects/data-quality/time-series-data-quality/:/app/folder/
+      - ~/Projects/secrets/blocket-secret:/app/db-secret
+      - ~/Projects/secrets/db-secret:/app/dw-secret
+      - ~/Projects/secrets/pulse-secret:/app/pulse-secret
+      - ~/Projects/secrets/smtp-secret:/app/smtp-secret

@@ -5,6 +5,7 @@ from infraestructure.psql import Database
 from utils.query import Query
 from utils.read_params import ReadParams
 
+
 class Load:
 
     # Write data to data warehouse
@@ -21,3 +22,14 @@ class Load:
             DB_WRITE.insert_data(query.query_insert_output_dw(), data_row)
         logging.info('INSERT dm_analysis.temp_time_series_data_quality COMMIT.')
         DB_WRITE.close_connection()
+
+    # Write data to data warehouse
+    def write_data_timelines_in_dwh(self,
+                                    config: getConf,
+                                    params: ReadParams,
+                                    data: pd.DataFrame) -> None:
+        query = Query(config, params)
+        db = Database(conf=config.DWConf)
+        db.execute_command(query.delete_base_output_average())
+        db.insert_copy('dm_analysis', 'time_series_data_quality_average', data)
+        db.close_connection()

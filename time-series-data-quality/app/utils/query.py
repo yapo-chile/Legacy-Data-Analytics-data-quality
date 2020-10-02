@@ -12,6 +12,17 @@ class Query:
         self.params = params
         self.conf = conf
 
+    def query_data_last_day(self) -> str:
+        return """select entity,
+                     entity_var, 
+                     w_rule_1::bool,
+                     w_rule_2::bool,
+                     w_rule_3::bool,
+                     w_rule_4::bool
+         from dm_analysis.temp_time_series_data_quality
+         where timedate::date = '{date}'
+         """.format(date=self.params.get_date_from())
+
     def query_base_postgresql(self) -> str:
         """
         Method return str with query
@@ -43,7 +54,7 @@ class Query:
                 WITH
                 DATASET AS (
 	                SELECT 
-                        ARRAY[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30] AS items
+                        ARRAY[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30] AS items
                 ),
                 DATES_RANGE_ARRAY AS (
 	                SELECT 
@@ -331,8 +342,17 @@ class Query:
         Method that returns events of the day
         """
         command = """
-                    delete from dm_analysis.temp_time_series_data_quality where 
-                    timedate::date = 
-                    '""" + self.params.get_date_from() + """'::date """
+        delete from dm_analysis.temp_time_series_data_quality where 
+        timedate::date = 
+        '""" + self.params.get_date_from() + """'::date """
+        return command
 
+    def delete_base_output_average(self) -> str:
+        """
+        Method that delete events of the day for reprocess
+        """
+        command = """
+        delete from dm_analysis.time_series_data_quality_average where 
+        timedate::date = '{}'::date
+        """.format(self.params.get_date_from())
         return command

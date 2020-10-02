@@ -6,6 +6,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email.encoders import encode_base64
+import pandas as pd
 from infraestructure.conf import getConf
 from utils.read_params import ReadParams
 
@@ -58,7 +59,7 @@ class Email:
         msg['To'] = ", ".join(self.email_to)
         msg.attach(MIMEText(self.body, 'plain'))
         for file in data_to_send:
-            self.logger.info('Charging files')
+            self.logger.info('Creating files')
             file[1].to_csv(file[0], sep=";", index=False)
             part = MIMEBase('application', "octet-stream")
             part.set_payload(open(file[0], "rb").read())
@@ -69,16 +70,17 @@ class Email:
             self.logger.info('File {} charged'.format(file[0]))
         self.send_email(msg)
 
-    def send_email_with_excel(self, data_to_send):
+    def send_email_with_excel(self, file_name, excel_sheets):
         """
-        Method [send_email_with_excel] send a email with one or multiples
-        excel files attached to recipients.
-        Param [ data_to send ] is a array of tuple composed by
-                (name_file_send, dataframe_to_excel)
-            Param [name_file_send] is the name of file,
-                must contain the extension ".xls"
-            Param [dataframe_to_excel] is a pandas dataframe with data that
-                will be saved as a xls and sent
+        Method [send_email_with_excel] send a email with one
+        excel files attached with multiples sheets to recipients.
+        Param [file_name] is the name of file,
+                must contain the extension ".xlsx"
+        Param [ excel_sheets send ] is a array of tuple composed by
+                (name_sheet, dataframe)
+            Param [name_sheet] is the name of sheet
+            Param [dataframe] is a pandas dataframe that will be
+                saved in sheet
         """
         self.logger.info('Preparing email')
         msg = MIMEMultipart('mixed')
@@ -86,14 +88,19 @@ class Email:
         msg['From'] = self.email_from
         msg['To'] = ", ".join(self.email_to)
         msg.attach(MIMEText(self.body, 'plain'))
-        for file in data_to_send:
-            self.logger.info('Charging files')
-            file[1].to_excel(file[0], index=False)
-            part = MIMEBase('application', "octet-stream")
-            part.set_payload(open(file[0], "rb").read())
-            encode_base64(part)
-            part.add_header('Content-Disposition',
-                            'attachment', filename=file[0])
-            msg.attach(part)
-            self.logger.info('File {} charged'.format(file[0]))
+        # pylint: disable=E0110
+        writer = pd.ExcelWriter(file_name,
+                                engine='xlsxwriter')
+        for sheet in excel_sheets:
+            sheet[1].to_excel(writer,
+                              sheet_name=sheet[0],
+                              index=False)
+        writer.save()
+        part = MIMEBase('application', "octet-stream")
+        part.set_payload(open(file_name, "rb").read())
+        encode_base64(part)
+        part.add_header('Content-Disposition',
+                        'attachment', filename=file_name)
+        msg.attach(part)
+        self.logger.info('File {} charged'.format(file_name))
         self.send_email(msg)
