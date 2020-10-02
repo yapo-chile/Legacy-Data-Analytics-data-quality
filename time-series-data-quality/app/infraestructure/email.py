@@ -104,26 +104,3 @@ class Email:
         msg.attach(part)
         self.logger.info('File {} charged'.format(file_name))
         self.send_email(msg)
-
-    def send_email_with_file(self, files):
-        """
-        Method [send_email_w_file] send a email with one or multiples
-        files attached to recipients.
-        Param [ files ] is a array of name of files to send
-        """
-        self.logger.info('Preparing email')
-        msg = MIMEMultipart('mixed')
-        msg['Subject'] = self.subject
-        msg['From'] = self.email_from
-        msg['To'] = ", ".join(self.email_to)
-        msg.attach(MIMEText(self.body, 'plain'))
-        for file in files:
-            self.logger.info('Charging files')
-            part = MIMEBase('application', "octet-stream")
-            part.set_payload(open(file, "rb").read())
-            encode_base64(part)
-            part.add_header('Content-Disposition',
-                            'attachment', filename=file)
-            msg.attach(part)
-            self.logger.info('File {} charged'.format(file))
-        self.send_email(msg)
