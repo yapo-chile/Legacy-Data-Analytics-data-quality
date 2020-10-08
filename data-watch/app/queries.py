@@ -166,7 +166,7 @@ QUERIES ={
         where vertical not in ('All Yapo')
 	        and timedate::date = now()::date - 1
         group by 1,2""",
-    "LEADS_XITI_BY_TYPE" : """
+    "LEADS_XITI_BY_TYPE_AGG" : """
 		select	
 			fecha as dt_day,
 			lower(click_name_1) as variation,
@@ -179,6 +179,25 @@ QUERIES ={
 			or (site = 535162 and lower(click_name_1) = 'sent_email_confirm')) -- only email desktop lead
 			and fecha = now()::date - 1
 			group by fecha, lower(click_name_1)""",
+    "LEADS_XITI_BY_TYPE_DETAIL": """
+        select	
+            fecha as dt_day,
+            case
+                when site = 535499 then concat(lower(click_name_1), ' - Yapo.cl Mobile v2')
+                when site = 557231 then concat(lower(click_name_1), ' - Yapo.cl NGA Android app')
+                when site = 535162 then concat(lower(click_name_1), ' - Yapo.cl v2')
+                when site = 557229 then concat(lower(click_name_1), ' - Yapo.cl NGA IOS app')
+
+            end as variation,
+            count(click_name_1) as value
+        from 
+            ods.fact_day_leads_geolocation_xiti 
+        where 
+            ((site = 557229 and lower(click_name_1) in ('call_mobile','sms_mobile')) -- only call and sms ios leads
+            or (site = 557231 and lower(click_name_1) in ('sent_email_confirm','call_mobile','sms_mobile')) -- only android leads
+            or (site = 535162 and lower(click_name_1) = 'sent_email_confirm')) -- only email desktop lead
+            and fecha = now()::date - 1
+            group by fecha, variation""",
     "DAU_PULSE_BY_PLATFORM": """
         select
 	        timedate::varchar as dt_day,
