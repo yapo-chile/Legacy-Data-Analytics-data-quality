@@ -183,7 +183,6 @@ QUERIES ={
         select	
             fecha as dt_day,
             case
-                when site = 535499 then concat(lower(click_name_1), ' - Yapo.cl Mobile v2')
                 when site = 557231 then concat(lower(click_name_1), ' - Yapo.cl NGA Android app')
                 when site = 535162 then concat(lower(click_name_1), ' - Yapo.cl v2')
                 when site = 557229 then concat(lower(click_name_1), ' - Yapo.cl NGA IOS app')
