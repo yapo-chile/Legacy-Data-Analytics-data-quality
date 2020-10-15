@@ -1,6 +1,6 @@
 - defaultTab: nodes
   description: |-
-        path: Data-Quality/ge-data-quality
+        path: https://github.mpi-internal.com/Yapo/data-quality/tree/master/ge-data-quality
         sudo docker run --rm --net=host \
                     -v /home/bnbiuser/secrets/dw_db:/app/db-secret \
                     -v /home/bnbiuser/secrets/aws_greatexp:/app/aws-secret \
