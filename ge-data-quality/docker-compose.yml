@@ -1,0 +1,14 @@
+version: '3'
+ 
+services:
+  app:
+    image: ${DOCKER_IMAGE_COMPOSE}
+    container_name: ${DOCKER_CONTAINER_NAME}
+    expose:
+      - "5000"
+    environment:
+      APP_DB_SECRET: /app/db-secret
+      APP_AWS_SECRET: /app/aws-secret
+    volumes:
+      - /Users/ricardoalvarez/Projects/secrets/db-secret:/app/db-secret
+      - /Users/ricardoalvarez/Projects/secrets/aws-secret:/app/aws-secret
