@@ -71,7 +71,7 @@ validation_operators:
     - name: send_slack_notification_on_validation_result
       action:
         class_name: SlackNotificationAction
-        slack_webhook: ${slack_webhook}
+        slack_webhook: https://hooks.slack.com/services/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
         notify_on: all
         notify_with:
               - s3_site
