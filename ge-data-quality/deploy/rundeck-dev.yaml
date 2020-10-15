@@ -28,7 +28,7 @@
     - script: |-
         sudo docker pull containers.mpi-internal.com/yapo/data-quality-ge-data-quality:feat_ge-implementation
         sudo docker run --rm --net=host \
-                        -v /home/bnbiuser/secrets/dw_db_prod:/app/db-secret \
+                        -v /home/bnbiuser/secrets/dw_db:/app/db-secret \
                         -v /home/bnbiuser/secrets/aws_greatexp:/app/aws-secret \
                         -e APP_DB_SECRET=/app/db-secret \
                         -e APP_AWS_SECRET=/app/aws-secret \
