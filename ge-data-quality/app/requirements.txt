@@ -1,0 +1,9 @@
+great-expectations
+pip-tools
+environ-config
+pylint==2.4.4
+SQLAlchemy
+psycopg2-binary
+boto3
+botocore
+boto3auth
