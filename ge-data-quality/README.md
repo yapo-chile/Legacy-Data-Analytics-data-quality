@@ -3,18 +3,23 @@
 # ge-data-quality
 
 ## Description
+Great expectations is a library for python to review quality of data through suites of expectations that should comply data, and generate a documentation of the review (actually configured to save in s3 bucket yapo-s3-dev-data)
+In folder app you would find principal file:
 
-Introduce here information about the purpose of this ETL, what kind of information it extracts and from where (dwh, pulse, blocket DB, service DB, specifics files, etc) and also specify other important tecnical details such as: execution preconditions, considerations about execution schedule.
+great_expectations.yaml is file of config of library, contain data source, notifications config, data storage of generated documentation.
+
+In folder app/pipes you will find folder exp_suites (expectations_suites) that contain one pipeline of verifications over the realized query (or over a table) and custom_expectations for define news expectations to review in verification process
+
+
 
 ## Pipeline Implementation Details
 
 |   Field           | Description                                                                |
 |-------------------|----------------------------------------------------------------------------|
-| Input Source      | Specify type of source and/or table names                                  |
-| Output Source     | Specify type of source and/or table names                                  |
-| Schedule          | hh:mm                                                                      |
-| Rundeck Access    | Specify rundeck environment (test/data jobs) and rundeck ETL name          |
-| Associated Report | Specify name and URL of tableau report (if applies)                        |
+| Input Source      | Data warehouse                                                             |
+| Output Source     | S3 Documentation in yapo-s3-dev-data bucket                                |
+| Schedule          | 12:00                                                                      |
+| Rundeck Access    | data jobs - DATA-QUALITY/Data - Great Expectation verifications            |
 
 
 ### Build
