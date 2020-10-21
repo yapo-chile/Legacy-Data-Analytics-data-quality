@@ -40,10 +40,19 @@ class Extraction:
     def get_source_data_blocket(self):
         query = Query(self.conf, self.params)
         db_source = Database(conf=self.conf.blocketConf)
-        data_blocket = db_source.select_to_dict( \
+        data_blocket = db_source.select_to_dict(
             query.query_base_postgresql_blocket())
         db_source.close_connection()
         return data_blocket
+
+    # Query data from Pulse bucket
+    def get_data_dw_ts_ad_phone_number_called(self):
+        db = Database(conf=self.conf.DWConf)
+        query = Query(self.conf, self.params)
+        data = db.select_to_dict(
+            query.query_dw_ts_ad_phone_number_called())
+        db.close_connection()
+        return data
 
     # Query data from Pulse bucket
     def get_data_pulse_ts_ad_phone_number_called(self):
