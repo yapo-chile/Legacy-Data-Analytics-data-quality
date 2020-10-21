@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 from infraestructure.conf import getConf
-from infraestructure.email import Email
 from utils.read_params import ReadParams
 from utils.etl.extraction import Extraction
 from utils.etl.load import Load
@@ -209,7 +208,6 @@ class Statistical:
                                          'w_rule_4',
                                          'eval_rank']
                                         ]
-        
 
         load.write_data_dwh_output_eval(self.conf,
                                         self.params,
@@ -225,13 +223,13 @@ class Statistical:
                                          self.params,
                                          df_to_save)
 
-        SendInformation(self.conf,self.params)\
+        SendInformation(self.conf, self.params)\
             .send_information(df_result_eval[[
-            'entity',
-            'entity_var',
-            'w_rule_1',
-            'w_rule_2',
-            'w_rule_3',
-            'w_rule_4'
-        ]], df_eval_obj.get_data_last_day())
+                'entity',
+                'entity_var',
+                'w_rule_1',
+                'w_rule_2',
+                'w_rule_3',
+                'w_rule_4'
+            ]], df_eval_obj.get_data_last_day())
         return True
