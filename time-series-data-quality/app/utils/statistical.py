@@ -155,13 +155,10 @@ class Statistical:
         load = Load()
         # Instance input data object
         df_eval_obj = Extraction(self.conf, self.params)
-        # df_eval = df_eval_obj.get_data_pulse_ts_ad_phone_number_called()
-
         df_eval = pd.concat([
             df_eval_obj.get_data_pulse_ts_ad_phone_number_called(),
             df_eval_obj.get_data_dw_ts_ad_phone_number_called()
         ], ignore_index=True).sort_values(by=['fecha'], ascending=True)
-
 
         # Add base statistics measures to time series metrics
         df_stadistic_measures = self.get_mean_cal(df_eval)
