@@ -274,34 +274,44 @@ QUERIES ={
         event_date::date as dt_day,
         event_type || ' - ' || event_name as variation,
         SUM(amount_events) as value
-        from dm_pulse.monitoring_events
-        where event_name in ('Ad phone number displayed',
+        from (
+        	select distinct *
+        	from dm_pulse.monitoring_events
+        	where
+        	event_name in ('Ad phone number displayed',
             'Ad phone number called',
             'Ad reply submitted',
-            'View AdReplyForm')
-        and event_date::date = now()::date - 1
+            'View AdReplyForm',
+            'Ad phone whatsapp number contacted',
+            'Ad View Similar Ads Interaction Button')
+            and event_type not in ('Click')
+        	and event_date::date = now()::date - 1) a
         group by 1,2""",
     "EVENTS_ADS": """select
         event_date::varchar dt_day,
         event_type || ' - ' || event_name as variation,
         sum(amount_events) as value
-        from dm_pulse.monitoring_events
-        where
-        event_name in ( 'Ad insertion confirmed',
+        from (
+        	select distinct *
+        	from dm_pulse.monitoring_events
+        	where
+        	event_name in ('Ad insertion confirmed',
             'Ad detail viewed',
             'Ad insertion error',
             'Ad insertion form',
             'Ad saved',
-            'Ad unsaved')
-        and event_date::date = now()::date - 1
+            'Ad unsaved') 
+        	and event_date::date = now()::date - 1) a
         group by 1,2""",
     "EVENTS_MESSAGING_CENTER": """select
         event_date::varchar dt_day,
         event_type || ' - ' || event_name as variation,
         sum(amount_events) as value
-        from dm_pulse.monitoring_events
-        where
-        event_name in ( 'Ad sms app opened',
+        from (
+        	select distinct *
+        	from dm_pulse.monitoring_events
+        	where
+        	event_name in ('Ad sms app opened',
             'Bulk conversation delete',
             'Click system message link',
             'Conversation Close',
@@ -310,36 +320,43 @@ QUERIES ={
             'User click in send button reply conversation',
             'User sends a message',
             'Block user',
-            'Unblock user')
-        and event_date::date = now()::date - 1
+            'Unblock user') 
+        	and event_date::date = now()::date - 1) a
         group by 1,2""",
     "EVENTS_RECOMMENDATIONS": """select
         event_date::varchar dt_day,
         event_type || ' - ' || event_name as variation,
         sum(amount_events) as value
-        from dm_pulse.monitoring_events
-        where
-        event_name in ( 'Recommendation widget viewable impression',
+        from (
+        	select distinct *
+        	from dm_pulse.monitoring_events
+        	where
+        	event_name in ('Recommendation widget viewable impression',
             'Recommendation widget impression',
-            'Recommendation widget clicked')
-        and event_date::date = now()::date - 1
+            'Recommendation widget clicked') 
+        	and event_date::date = now()::date - 1) a
         group by 1,2""",
     "EVENTS_VIEWS": """select
         event_date::date as dt_day,
         event_type || ' - ' || event_name || ' - ' || object_type  as variation,
         SUM(amount_events) as value
-        from dm_pulse.monitoring_events
-        where event_name in ('Inbox View', 'Page viewed', 'Inbox view')
-            and event_date::date = now()::date - 1
+        from (
+        	select distinct *
+        	from dm_pulse.monitoring_events
+        	where
+        	event_name in ('Inbox View', 'Page viewed', 'Inbox view') 
+        	and event_date::date = now()::date - 1) a
         group by 1,2""",
-    "EVENTS_LISTING": """ select
+    "EVENTS_LISTING": """select
         event_date::varchar dt_day,
         event_type || ' - ' || event_name as variation,
         sum(amount_events) as value
-        from dm_pulse.monitoring_events
-        where
-        event_name in ( 'Listing viewed', 'Listing unsaved', 'Listing saved')
-        and event_date::date = now()::date - 1
+        from (
+        	select distinct *
+        	from dm_pulse.monitoring_events
+        	where
+        	event_name in ('Listing viewed', 'Listing unsaved', 'Listing saved') 
+        	and event_date::date = now()::date - 1) a
         group by 1,2""",
 
     }
