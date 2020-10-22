@@ -54,7 +54,7 @@ class Query:
                 WITH
                 DATASET AS (
 	                SELECT 
-                        ARRAY[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30] AS items
+                        ARRAY[0] AS items
                 ),
                 DATES_RANGE_ARRAY AS (
 	                SELECT 
@@ -318,6 +318,17 @@ class Query:
                         
                    ORDER BY 1,2,3
                 """.format(self.params.get_date_to())
+        return query
+
+    def query_dw_ts_ad_phone_number_called(self) -> str:
+        """
+        Method return str with query
+        """
+        query = """
+        select timedate as fecha, entity, entity_var, mtr_var
+        from dm_analysis.time_series_data_quality_average
+        where timedate::date between '{date_from}'::date - INTERVAL '30 day' and '{date_from}'::date - INTERVAL '1 day'
+        """.format(date_from=self.params.get_date_from())
         return query
 
     def query_insert_output_dw(self) -> str:
