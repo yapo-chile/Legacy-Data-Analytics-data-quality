@@ -300,7 +300,9 @@ QUERIES ={
             'Ad insertion error',
             'Ad insertion form',
             'Ad saved',
-            'Ad unsaved') 
+            'Ad unsaved',
+            'Ad published',
+            'Ad deleted') 
         	and event_date::date = now()::date - 1) a
         group by 1,2""",
     "EVENTS_MESSAGING_CENTER": """select
