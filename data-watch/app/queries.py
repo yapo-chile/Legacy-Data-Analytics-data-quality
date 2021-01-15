@@ -76,6 +76,16 @@ QUERIES ={
         where vertical not in ('All Yapo')
 	        and timedate::date = now()::date - 1
         group by 1,2""",
+    "NAA_PRI_BY_VERTICAL": """
+        select
+	        timedate::varchar as dt_day,
+	        'NAA_PRI' || ' - ' || vertical as variation,
+	        SUM(naa_pri) as value
+        from 
+	        dm_peak.content
+        where platform != 'All Yapo' and vertical != 'All Yapo'
+	        and timedate::date = now()::date - 1
+        group by 1,2""",
     "NAA_PRO_BY_PLATFORM": """
         select
 	        timedate::varchar as dt_day,
