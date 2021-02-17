@@ -174,6 +174,7 @@ QUERIES ={
         from 
 	        dm_peak.traffic
         where vertical not in ('All Yapo')
+            and platform not in ('All Yapo')
 	        and timedate::date = now()::date - 1
         group by 1,2""",
     "LEADS_XITI_BY_PLATFORM": """
@@ -184,39 +185,77 @@ QUERIES ={
         from 
 	        dm_peak.traffic
         where vertical not in ('All Yapo')
+            and platform not in ('All Yapo')
 	        and timedate::date = now()::date - 1
         group by 1,2""",
-    "LEADS_XITI_BY_TYPE_AGG" : """
-		select	
-			fecha as dt_day,
-			lower(click_name_1) as variation,
-			count(click_name_1) as value
-		from 
-			ods.fact_day_leads_geolocation_xiti 
-		where 
-			((site = 557229 and lower(click_name_1) in ('call_mobile','sms_mobile')) -- only call and sms ios leads
-			or (site = 557231 and lower(click_name_1) in ('sent_email_confirm','call_mobile','sms_mobile')) -- only android leads
-			or (site = 535162 and lower(click_name_1) = 'sent_email_confirm')) -- only email desktop lead
-			and fecha = now()::date - 1
-			group by fecha, lower(click_name_1)""",
     "LEADS_XITI_BY_TYPE_DETAIL": """
-        select	
+        select 
             fecha as dt_day,
-            case
-                when site = 557231 then concat(lower(click_name_1), ' - Yapo.cl NGA Android app')
-                when site = 535162 then concat(lower(click_name_1), ' - Yapo.cl v2')
-                when site = 557229 then concat(lower(click_name_1), ' - Yapo.cl NGA IOS app')
-
-            end as variation,
-            count(click_name_1) as value
-        from 
-            ods.fact_day_leads_geolocation_xiti 
-        where 
-            ((site = 557229 and lower(click_name_1) in ('call_mobile','sms_mobile')) -- only call and sms ios leads
-            or (site = 557231 and lower(click_name_1) in ('sent_email_confirm','call_mobile','sms_mobile')) -- only android leads
-            or (site = 535162 and lower(click_name_1) = 'sent_email_confirm')) -- only email desktop lead
-            and fecha = now()::date - 1
-            group by fecha, variation""",
+            site || ' - ' || ad_reply_type as variation,
+            sum(leads) as value 
+        from (
+            select
+                fecha,
+                case
+                    when site = 535162 then 'Desktop v2'
+                    when site = 535499 then 'Mobile v2'
+                    when site = 557229 then 'NGA Ios App'
+                    when site = 557231 then 'NGA Android App'
+                end as site,
+                case
+                    when ad_reply_type in ('Mail','Email') then 'Mail'
+                    when site = 535499 and ad_reply_type = 'SMS' then 'Call'
+                    else ad_reply_type
+                end as ad_reply_type,
+                sum(page_loads) as leads
+            from(
+                select 
+                    * 
+                from 
+                    stg.fact_day_ad_reply_type_geolocation_xiti_v2 
+                where 
+                    (site = 535499 and ad_reply_type in ('Mail','Email','Call','SMS')) -- only msite leads
+                    or (site = 557229 and ad_reply_type in ('Email','Call','SMS')) -- only mail ios lead
+                    and fecha >= '2019-06-01' -- date for start lead correction
+            ) a
+            where
+                ad_reply_type <> '0'
+                and fecha = now()::date - 1
+            group by
+                1,2,3
+            union all
+            select
+                fecha,
+                case
+                    when site = 535162 then 'Desktop v2'
+                    when site = 535499 then 'Mobile v2'
+                    when site = 557229 then 'NGA Ios App'
+                    when site = 557231 then 'NGA Android App'
+                end as site,
+                case
+                    when lower(click_name_1) = 'sent_email_confirm' then 'Mail'
+                    when lower(click_name_1) = 'call_mobile' then 'Call'
+                    when lower(click_name_1) = 'sms_mobile' then 'SMS'
+                end as ad_reply_type,
+                sum(clicks) as leads
+            from(
+                select	
+                    *
+                from 
+                    ods.fact_day_leads_geolocation_xiti 
+                where 
+                    (site = 557229 and lower(click_name_1) in ('call_mobile','sms_mobile')) -- only call and sms ios leads
+                    or (site = 557231 and lower(click_name_1) in ('sent_email_confirm','call_mobile','sms_mobile')) -- only android leads
+                    or (site = 535162 and lower(click_name_1) = 'sent_email_confirm') -- only email desktop lead
+                    and fecha >= '2019-06-01' -- date for start lead correction
+            ) a
+            left join
+                ods.category b on a.click_name_3::int = b.category_id_nk
+            where
+                fecha = now()::date - 1
+            group by
+                1,2,3) leads
+        group by 1,2""",
     "DAU_PULSE_BY_PLATFORM": """
         select
 	        timedate::varchar as dt_day,
